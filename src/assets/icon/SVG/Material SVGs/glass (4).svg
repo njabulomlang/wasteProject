@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_3" x="0px" y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve" width="512px" height="512px" class=""><g><g>
+	<polygon style="fill:#91AB00" points="2,58 8,58 5,50  " data-original="#C69C6D" class="" data-old_color="#C69C6D"/>
+	<polygon style="fill:#91AB00" points="9,48 15,42 15,52 11,52  " data-original="#C69C6D" class="" data-old_color="#C69C6D"/>
+	<polygon style="fill:#91AB00" points="14,56 14,62 22,59  " data-original="#C69C6D" class="" data-old_color="#C69C6D"/>
+	<polygon style="fill:#91AB00" points="26,28 26,62 46,62 46,28 39,28 36,31 40,35 36,39 38,47 30,39 34,35 30,31 33,28  " data-original="#A67C52" class="" data-old_color="#A67C52"/>
+	<rect x="26" y="58" style="fill:#91AB00" width="20" height="4" data-original="#7D5D3E" class="active-path" data-old_color="#7D5D3E"/>
+	<path style="fill:#91AB00" d="M43,28c0.578-1.678,1.521-3.219,2.78-4.5l0,0c2.203-2.241,3.441-5.28,3.441-8.45V2h5.898v13.05   c0,3.169,1.238,6.209,3.441,8.45l0,0C60.762,25.741,62,28.78,62,31.95V62H46.272c0,0,0-34,0-34h-2.949L43,28z" data-original="#A67C52" class="" data-old_color="#A67C52"/>
+	<path style="fill:#91AB00" d="M55.61,23.5c-2.203-2.241-3.441-5.281-3.441-8.45V2h-2.949v13.05c0,3.169-1.238,6.209-3.441,8.45   c-1.259,1.281-2.203,2.822-2.78,4.5l0.323,0H46v34h13.051V31.95C59.051,28.78,57.813,25.741,55.61,23.5z" data-original="#C69C6D" class="" data-old_color="#C69C6D"/>
+	<rect x="46" y="34" style="fill:#91AB00" width="16" height="18" data-original="#737373" class="" data-old_color="#737373"/>
+	<rect x="46" y="34" style="fill:#FFFFFF" width="13" height="18" data-original="#999999" class="" data-old_color="#999999"/>
+	<g>
+		
+			<rect x="19" y="16.757" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -8.9914 20.2929)" style="fill:#FFFFFF" width="2" height="8.485" data-original="#999999" class="" data-old_color="#999999"/>
+	</g>
+	<g>
+		<rect x="25" y="15" style="fill:#FFFFFF" width="2" height="8" data-original="#999999" class="" data-old_color="#999999"/>
+	</g>
+	<g>
+		<rect x="14" y="26" style="fill:#FFFFFF" width="8" height="2" data-original="#999999" class="" data-old_color="#999999"/>
+	</g>
+</g></g> </svg>
