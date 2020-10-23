@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Price</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="modal_container">
+    <!-- <form > -->
+      <ion-item>
+      <ion-label position="floating">PAP001</ion-label>
+      <ion-input [(ngModel)]="price1"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label position="floating">PAP003</ion-label>
+      <ion-input  [(ngModel)]="price3"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label position="floating">PAP005</ion-label>
+      <ion-input  [(ngModel)]="price5"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label position="floating">PAP007</ion-label>
+      <ion-input  [(ngModel)]="price7"></ion-input>
+    </ion-item>
+
+    <ion-button color="success" (click)="addPaper()">Save</ion-button>
+     <!-- </form> -->
+    
+  </div>
+  <h3 style="text-align: center;">Price updates records</h3>
+
+  <table class="table table-striped">
+    <thead style="background-color: #C5A60A; color: white;">
+      <tr>
+        <th scope="col">Date modified</th>
+        <th scope="col">Material</th>
+        <th scope="col">Old Price</th>
+        <th scope="col">New Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let info of infoArr;let i = index">
+        <th scope="row">{{info.id | date:'medium'}}</th>
+        <td><div *ngFor="let p of info.doc.paper">{{p.name}}<br></div></td>
+        <td><div *ngFor="let p of info.doc.paper">{{p.price}}<br></div></td>
+        <td>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</ion-content>

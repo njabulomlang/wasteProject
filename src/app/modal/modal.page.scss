@@ -1,0 +1,15 @@
+.modal_container{
+    display: flex;
+    // background-color: yellowgreen;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.modal_container > ion-input {
+    width: 300px;
+    margin: 20px;
+    border-radius: 10px;
+}
+.modal_container > ion-button {
+    width: 100%;
+}

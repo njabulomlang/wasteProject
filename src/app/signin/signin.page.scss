@@ -4,13 +4,15 @@
   height: 100vh;
   background-image: url(../../assets/loginwave.svg);
   background-repeat: no-repeat;
-  background-position: -20% -300px;
+  background-position: -8% -500px;
 //    background-color: rgb(161, 142, 117);
    align-items: center;
   justify-content: center;
    margin: auto;
    flex-wrap: nowrap;
    overflow: hidden;
+   animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 1.5s; /* don't forget to set a duration! */
 }
 
 .container > div {

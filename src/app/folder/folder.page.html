@@ -5,7 +5,7 @@
     </ion-buttons>
     
     <ion-title>{{ folder }}</ion-title>
-    <ion-button fill="clear" slot="end" color="danger" style="width: 60px;">
+    <ion-button fill="clear" slot="end" color="danger" style="width: 60px;" (click)="logout()">
       <ion-icon slot="icon-only" name="log-out"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -76,17 +76,17 @@
       <ion-card class="flex-item">
         <ion-card-header>
           <ion-card-subtitle>PAPER</ion-card-subtitle>
-          <ion-button fill="clear" color="dark" (click)="createModal()" style="width: 50px;">
+          <ion-button fill="clear" color="dark" (click)="createModal('Paper')" style="width: 50px;">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
           <!-- <ion-card-title>Card Title</ion-card-title> -->
         </ion-card-header>
 
         <ion-card-content>
-          <div>{{4 | currency:'R'}}</div>
-          <div>{{2 | currency:'R'}}</div>
-          <div>{{7 | currency:'R'}}</div>
-          <div>{{2 | currency:'R'}}</div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP001</label></p></div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP003</label></p></div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP007</label></p></div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP005</label></p></div>
 
         </ion-card-content>
       </ion-card>
@@ -95,47 +95,47 @@
         <ion-card-header>
           <ion-card-subtitle>PLASTIC</ion-card-subtitle>
           <!-- <ion-icon name="create-outline" ></ion-icon> -->
-          <ion-button fill="clear" color="dark" style="width: 50px;">
+          <ion-button fill="clear" color="dark" (click)="createModal('Plastic')" style="width: 50px;">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
           <!-- <ion-card-title>Card Title</ion-card-title> -->
         </ion-card-header>
 
         <ion-card-content>
-          <div>{{4 | currency:'R'}}</div>
-          <div>{{2 | currency:'R'}}</div>
-          <div>{{7 | currency:'R'}}</div>
-          <div>{{2 | currency:'R'}}</div>
-          <div>{{3 | currency:'R'}}</div>
-          <div>{{9 | currency:'R'}}</div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP001</label></p></div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP001</label></p></div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP001</label></p></div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
         </ion-card-content>
       </ion-card>
 
       <ion-card class="flex-item">
         <ion-card-header>
           <ion-card-subtitle>GLASS</ion-card-subtitle>
-          <ion-button fill="clear" color="dark" style="width: 50px;">
+          <ion-button fill="clear" color="dark" (click)="createModal('Glass')" style="width: 50px;">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
           <!-- <ion-card-title>Card Title</ion-card-title> -->
         </ion-card-header>
 
         <ion-card-content>
-          <div>{{4 | currency:'R'}}</div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
         </ion-card-content>
       </ion-card>
 
       <ion-card class="flex-item">
         <ion-card-header>
           <ion-card-subtitle>ALUMINIUM</ion-card-subtitle>
-          <ion-button fill="clear" color="dark" style="width: 50px;">
+          <ion-button fill="clear" color="dark" (click)="createModal('Aluminium')" style="width: 50px;">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
           <!-- <ion-card-title>Card Title</ion-card-title> -->
         </ion-card-header>
 
         <ion-card-content>
-          <div>{{2 | currency:'R'}}</div>
+          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
 
         </ion-card-content>
       </ion-card>
@@ -163,8 +163,7 @@
 </ion-content>
 
 <ion-content [fullscreen]="true" *ngIf="folder==='Inbound'">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">{{ folder }}</ion-title>
@@ -239,8 +238,7 @@
 </ion-content>
 
 <ion-content [fullscreen]="true" *ngIf="folder==='Outbound'">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">{{ folder }}</ion-title>
@@ -315,8 +313,7 @@
 
 
 <ion-content [fullscreen]="true" *ngIf="folder==='Reclaimers'">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">{{ folder }}</ion-title>
@@ -399,11 +396,11 @@
       <ion-title size="large">{{ folder }}</ion-title>
     </ion-toolbar>
   </ion-header>
-  <div class="profile_container">
+  <!-- <div class="profile_container">
     <div style="background-color: rgb(0, 80, 17); padding-top: 50px;">
       <div style="margin-bottom: -50px;z-index: 10000; width: 20%; align-items: center; justify-content: space-around;">
        <div style="width: 300px;">
-         <ion-button  fill="clear" slot="end" color="light" style="width: 60px; margin-left: 70%;">
+         <ion-button  fill="clear" slot="end" color="light" style="width: 60px; margin-left: 50%;">
           <ion-icon slot="icon-only" name="create"></ion-icon>
         </ion-button>
        </div>
@@ -415,10 +412,9 @@
         <h1 style="text-align: center; font-weight: bold;">Njabulo Mlangeni</h1>
         <h3 style="text-align: center;">011-903-0023</h3>
         <p style="text-align: center;">123 Diepkloof, Soweto, 1816</p>
-        <!-- <ion-button style="width: 100%;" color="success">EDIT PROFILE</ion-button> -->
       </div>
     </div>
-  </div>
+  </div> -->
 
 </ion-content>
 

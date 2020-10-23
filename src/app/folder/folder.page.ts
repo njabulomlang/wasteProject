@@ -1,8 +1,9 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, ModalController, NavController, ToastController } from '@ionic/angular';
 import * as HighCharts from 'highcharts';
-
+import * as firebase from 'firebase';
+import { ModalPage } from '../modal/modal.page';
 @Component({
   selector: 'app-folder',
   templateUrl: './folder.page.html',
@@ -17,7 +18,8 @@ export class FolderPage implements OnInit {
     { "totalMass": 0, "name": "Reclaimer", "bgcolor":"#13BBBB" }
 ];
 
-  constructor(private activatedRoute: ActivatedRoute, public menuCtrl : MenuController) { 
+  constructor(private activatedRoute: ActivatedRoute, public menuCtrl : MenuController, private navCtrl : NavController, public toastController: ToastController,
+    public modalController: ModalController) { 
     this.menuCtrl.enable(true);
   }
 
@@ -29,8 +31,15 @@ export class FolderPage implements OnInit {
     this.plotSimpleBarChart1();
     this.plotSimpleBarChart2();
   }
-  createModal() {
+  async createModal(material) {
+    // console.log('My values', PAP001, PAP003, PAP005, PAP007);
     
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      cssClass: 'my-custom-class',
+      componentProps: { value: material}
+    });
+    return await modal.present();
   }
   plotSimpleBarChart() {
     let myChart = HighCharts.chart('highcharts', {
@@ -91,7 +100,20 @@ export class FolderPage implements OnInit {
         }]
     });
   }
+  logout() {
+    firebase.auth().signOut().then((res)=>{
+      this.presentToast('Logged out...')
+      this.navCtrl.navigateRoot('signin');
+    }) 
+  }
 
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000
+    });
+    toast.present();
+  }
   plotSimpleBarChart2() {
     let myChart = HighCharts.chart('highcharts2', {
       chart: {
