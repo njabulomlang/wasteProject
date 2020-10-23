@@ -1,9 +1,25 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>signin</ion-title>
-  </ion-toolbar>
-</ion-header>
+
 
 <ion-content>
-
+  <div class="container">
+    <div style="display: flex; flex-direction: column;background-color: rgba(185, 185, 185, 0.589); align-items: center;justify-content: space-around;">
+      <div style="width: 250px;">
+        <div style="display: flex; margin-bottom: 20%; margin-left: 5%; width: 30px;">
+          <img src="../assets/logo.svg" width="30" height="30" alt="">
+          <ion-title style="padding: 0;">Mthombowolwazi</ion-title>
+        </div>
+        <div style="align-items: center;">
+          <p style="font-size: 10px; text-align: center; margin-bottom: 10%;margin-left: 5px;">Welcome back, Please login to your account.</p>
+          <ion-input type="text" style="background-color: white; margin: 5px; border-radius: 5px;" value="Njabulo Mlangeni" placeholder="Name"></ion-input>
+          <ion-input type="password" style="background-color: white;margin: 5px; border-radius: 5px;" value="011-903-0023" placeholder="Name"></ion-input>
+          <a href="" style="text-align: right;margin-left:52%; font-size: 12px; color: black;">Forgot Password</a>
+          <!-- <ion-input type="text" value="123 Diepkloof, Soweto, 1816" placeholder="Name"></ion-input> -->
+          <ion-button style="width: 50%;margin-left: 25%; margin-top: 10%; height: 4vh;" (click)="loginUser()" color="success">LOGIN</ion-button>
+        </div>
+      </div>
+    </div>
+    <div >
+      <img src="../../assets/ALU-CANS-cropped.jpg"  alt="">
+    </div>
+  </div>
 </ion-content>

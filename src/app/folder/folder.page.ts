@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 import * as HighCharts from 'highcharts';
 
 @Component({
@@ -16,7 +17,9 @@ export class FolderPage implements OnInit {
     { "totalMass": 0, "name": "Reclaimer", "bgcolor":"#13BBBB" }
 ];
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute, public menuCtrl : MenuController) { 
+    this.menuCtrl.enable(true);
+  }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
@@ -26,7 +29,9 @@ export class FolderPage implements OnInit {
     this.plotSimpleBarChart1();
     this.plotSimpleBarChart2();
   }
-
+  createModal() {
+    
+  }
   plotSimpleBarChart() {
     let myChart = HighCharts.chart('highcharts', {
       chart: {

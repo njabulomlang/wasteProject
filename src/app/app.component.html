@@ -2,27 +2,41 @@
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
-
+        <ion-list lines="none" id="inbox-list">
+          <ion-list-header id="header1">
+            <img src="../assets/WhiteWineGlass.jpg" style="border-radius: 50%; margin: auto; " width="120" height="120" alt="">
+            <ion-note style="text-align: center;width: 100%; font-size: 18px;  color: #ffffff; padding-top: 10px;">Njabulo Mlangeni</ion-note>
+            <ion-note style="text-align: center;width: 100%; font-size: 14px;font-style: italic; color: #13BBBB; opacity: .9;">Admin</ion-note>
+          </ion-list-header>
+          
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+            <ion-item (click)="selectedIndex = i" color="success" routerDirection="root" [routerLink]="[p.url]"  lines="none" detail="false" [class.selected]="selectedIndex == i">
+              <!-- <ion-icon *ngIf="p.icon && !p.image" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon> -->
+              <img *ngIf="p.image && !p.icon" style="width: 25px; height: 25px;" src="{{p.image}}" alt="">&nbsp; &nbsp;
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
 
-        <ion-list id="labels-list">
+        <!-- <ion-list id="labels-list">
           <ion-list-header>Labels</ion-list-header>
 
           <ion-item *ngFor="let label of labels" lines="none">
             <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
             <ion-label>{{ label }}</ion-label>
           </ion-item>
-        </ion-list>
+        </ion-list> -->
       </ion-content>
+     <ion-footer style="display: flex; flex-direction: column;align-items: center; background: rgb(0, 80, 17);color: white; border: none;z-index: -10000;">
+       <div style="display: flex; align-items: center;">
+        <img src="../assets/logo.svg" width="30" height="30" alt="">
+         <ion-title style="padding: 0;">Mthombowolwazi</ion-title>
+       </div>
+       <div style="padding:0;margin: 0;"><ion-label>v001</ion-label></div>
+       <div><h5 style="font-size: 12px;margin: 0;">Terms and Conditions</h5></div>
+       <p style="font-size: 8px;padding: 0 5px 5px 5px; margin: 0;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate, dolorem vitae quaerat quidem non ullam obcaecati quisquam libero facilis asperiores rem eligendi voluptatum qui magnam et iusto? Aut, suscipit incidunt non corporis quis ut exercitationem enim iste at mollitia sapiente praesentium nobis veritatis eveniet accusantium explicabo! Maiores culpa enim amet!</p>
+       <div></div>
+     </ion-footer>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>

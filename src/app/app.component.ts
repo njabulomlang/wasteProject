@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -15,32 +15,32 @@ export class AppComponent implements OnInit {
     {
       title: 'Dashboard',
       url: '/folder/Dashboard',
-      icon: 'home'
+      image: '../assets/SVG/homeW.svg'
     },
     {
       title: 'Inbound',
       url: '/folder/Inbound',
-      icon: 'caret-forward'
+      image: '../assets/inboundW.svg'
     },
     {
       title: 'Outbound',
       url: '/folder/Outbound',
-      icon: 'caret-back'
+      image: '../assets/outboundW.svg'
     },
     {
       title: 'Reclaimers',
       url: '/folder/Reclaimers',
-      icon: 'cart'
+      image: '../assets/reclaimerW.svg'
     },
     {
       title: 'Manage Users',
       url: '/folder/Manage Users',
-      icon: 'people'
+      image: '../assets/SVG/manageUserz.svg'
     },
     {
       title: 'Profile',
       url: '/folder/Profile',
-      icon: 'person'
+      image: '../assets/user (1).png'
     }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
@@ -48,7 +48,8 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar, 
+    public renderer : Renderer2
   ) {
     this.initializeApp();
   }
