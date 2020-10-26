@@ -13,3 +13,17 @@
 .modal_container > ion-button {
     width: 100%;
 }
+#pc1 {
+    opacity: 1;
+    // transition: opacity 1s;
+    // animation-name: bounceInRight;
+    // animation-duration: 1s;
+    // z-index: -1;
+  }
+  #pc1.hide {
+    opacity: 0;
+  }
+
+  .paper_In_container{
+      display: flex;
+  }

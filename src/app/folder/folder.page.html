@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    
+
     <ion-title>{{ folder }}</ion-title>
     <ion-button fill="clear" slot="end" color="danger" style="width: 60px;" (click)="logout()">
       <ion-icon slot="icon-only" name="log-out"></ion-icon>
@@ -83,10 +83,11 @@
         </ion-card-header>
 
         <ion-card-content>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP001</label></p></div>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP003</label></p></div>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP007</label></p></div>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP005</label></p></div>
+          <div *ngFor="let q of infoPaper">
+            <p style="line-height: 12px;">{{q.price | currency:'R'}}<br><label
+                style="font-size: 8px;font-weight: bold;">{{q.name}}</label></p>
+        </div>
+          
 
         </ion-card-content>
       </ion-card>
@@ -102,12 +103,11 @@
         </ion-card-header>
 
         <ion-card-content>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP001</label></p></div>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP001</label></p></div>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px;font-weight: bold;">PAP001</label></p></div>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
+ 
+            <div *ngFor="let q of infoArr">
+              <p style="line-height: 12px;">{{q.price | currency:'R'}}<br><label
+                  style="font-size: 8px;font-weight: bold;">{{q.name}}</label></p>
+          </div>
         </ion-card-content>
       </ion-card>
 
@@ -121,7 +121,10 @@
         </ion-card-header>
 
         <ion-card-content>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
+          <div *ngFor="let q of infoGlass">
+            <p style="line-height: 12px;">{{q.price | currency:'R'}}<br><label
+                style="font-size: 8px;font-weight: bold;">{{q.name}}</label></p>
+        </div>
         </ion-card-content>
       </ion-card>
 
@@ -135,7 +138,10 @@
         </ion-card-header>
 
         <ion-card-content>
-          <div><p style="line-height: 12px;">{{4 | currency:'R'}}<br><label style="font-size: 8px; font-weight: bold;">PAP001</label></p></div>
+          <div *ngFor="let q of infoAl">
+            <p style="line-height: 12px;">{{q.price | currency:'R'}}<br><label
+                style="font-size: 8px;font-weight: bold;">{{q.name}}</label></p>
+        </div>
 
         </ion-card-content>
       </ion-card>
@@ -163,7 +169,7 @@
 </ion-content>
 
 <ion-content [fullscreen]="true" *ngIf="folder==='Inbound'">
-  
+
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">{{ folder }}</ion-title>
@@ -172,22 +178,22 @@
   <div class="inbound_container">
     <div>
       <div style="background-image: url(../../assets/ColorFullMagazines.jpg);">
-        <div>
+        <div (click)="createModal('Paper_Inbound')">
           <h4>Paper</h4>
         </div>
       </div>
       <div style="background-image: url(../../assets/BluCapPlasticBottle.jpg);">
-        <div>
+        <div (click)="createModal('Plastic_Inbound')">
           <h4>Plastic</h4>
         </div>
       </div>
       <div style="background-image: url(../../assets/SquashedRedCan.jpg);">
-        <div>
+        <div (click)="createModal('Aluminium_Inbound')">
           <h4>Aluminium</h4>
         </div>
       </div>
       <div style="background-image: url(../../assets/WhiteWineGlass.jpg);">
-        <div>
+        <div (click)="createModal('Glass_Inbound')">
           <h4>Glass</h4>
         </div>
       </div>
@@ -425,213 +431,213 @@
     </ion-toolbar>
   </ion-header>
   <!-- <div class="users_main"> -->
-    <!-- <div class="users_container"> -->
-      <ion-list lines="none">
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Finn</h2>
-            <h3>I'm a big deal</h3>
-            <p>Listen, I've had a pretty messed up day...</p>
-          </ion-label>
+  <!-- <div class="users_container"> -->
+  <ion-list lines="none">
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Finn</h2>
+        <h3>I'm a big deal</h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
 
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Finn</h2>
-            <h3>I'm a big deal</h3>
-            <p>Listen, I've had a pretty messed up day...</p>
-          </ion-label>
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Finn</h2>
+        <h3>I'm a big deal</h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
-        
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Finn</h2>
-            <h3>I'm a big deal</h3>
-            <p>Listen, I've had a pretty messed up day...</p>
-          </ion-label>
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Finn</h2>
+        <h3>I'm a big deal</h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
 
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Finn</h2>
-            <h3>I'm a big deal</h3>
-            <p>Listen, I've had a pretty messed up day...</p>
-          </ion-label>
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Finn</h2>
+        <h3>I'm a big deal</h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
 
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Finn</h2>
-            <h3>I'm a big deal</h3>
-            <p>Listen, I've had a pretty messed up day...</p>
-          </ion-label>
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Finn</h2>
+        <h3>I'm a big deal</h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
 
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Finn</h2>
-            <h3>I'm a big deal</h3>
-            <p>Listen, I've had a pretty messed up day...</p>
-          </ion-label>
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Finn</h2>
+        <h3>I'm a big deal</h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
 
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Finn</h2>
-            <h3>I'm a big deal</h3>
-            <p>Listen, I've had a pretty messed up day...</p>
-          </ion-label>
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Finn</h2>
+        <h3>I'm a big deal</h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
 
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Han</h2>
-            <h3>Look, kid...</h3>
-            <p>I've got enough on my plate as it is, and I...</p>
-          </ion-label>
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Han</h2>
+        <h3>Look, kid...</h3>
+        <p>I've got enough on my plate as it is, and I...</p>
+      </ion-label>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Rey</h2>
-            <h3>I can handle myself</h3>
-            <p>You will remove these restraints and leave...</p>
-          </ion-label>
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Rey</h2>
+        <h3>I can handle myself</h3>
+        <p>You will remove these restraints and leave...</p>
+      </ion-label>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
-        <ion-item color="medium">
-          <ion-avatar slot="start">
-            <img src="../../assets/mthombologo (1).png">
-          </ion-avatar>
-          <ion-label>
-            <h2>Luke</h2>
-            <h3>Your thoughts betray you</h3>
-            <p>I feel the good in you, the conflict...</p>
-          </ion-label>
-          <ion-buttons style="display: flex; flex-direction: column;">
-            <ion-button fill="clear" color="light" style="width: 50px;">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
+    <ion-item color="medium">
+      <ion-avatar slot="start">
+        <img src="../../assets/mthombologo (1).png">
+      </ion-avatar>
+      <ion-label>
+        <h2>Luke</h2>
+        <h3>Your thoughts betray you</h3>
+        <p>I feel the good in you, the conflict...</p>
+      </ion-label>
+      <ion-buttons style="display: flex; flex-direction: column;">
+        <ion-button fill="clear" color="light" style="width: 50px;">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
 
-            <ion-button fill="clear" color="danger" style="width: 50px;">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
-      </ion-list>
+        <ion-button fill="clear" color="danger" style="width: 50px;">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
 
-    <!-- </div> -->
-    <!-- <div style="background-color: blanchedalmond; width: 200px;height: 50vh;"></div> -->
+  <!-- </div> -->
+  <!-- <div style="background-color: blanchedalmond; width: 200px;height: 50vh;"></div> -->
   <!-- </div> -->
 
 

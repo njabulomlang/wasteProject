@@ -157,6 +157,11 @@ ion-card-content > div {
   align-items: center;
   
 }
+
+.inbound_container > div > div > div:hover {
+  color: #C5A60A;
+  cursor: pointer;
+}
 h4 {
   text-align: right;
   width: 220px;

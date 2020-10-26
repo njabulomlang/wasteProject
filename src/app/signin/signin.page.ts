@@ -13,8 +13,8 @@ export class SigninPage implements OnInit {
   password
   loginForm
   emailPattern: string = "[a-zA-Z0-9-_.+#$!=%^&*/?]+[@][a-zA-Z0-9-]+[.][a-zA-Z0-9]+"
-  constructor(public menuCtrl : MenuController, private navCtrl : NavController, private formBuilder: FormBuilder,
-    public toastController: ToastController,public loadingController: LoadingController, public alertController: AlertController) { 
+  constructor(public menuCtrl: MenuController, private navCtrl: NavController, private formBuilder: FormBuilder,
+    public toastController: ToastController, public loadingController: LoadingController, public alertController: AlertController) {
     this.menuCtrl.enable(false);
     this.loginForm = formBuilder.group({
       email: [this.email, Validators.compose([Validators.required, Validators.pattern(this.emailPattern)])],
@@ -24,9 +24,9 @@ export class SigninPage implements OnInit {
 
   ngOnInit() {
   }
- 
+
   loginUser() {
-    firebase.auth().signInWithEmailAndPassword(this.loginForm.value.email, this.loginForm.value.password).then((val)=>{
+    firebase.auth().signInWithEmailAndPassword(this.loginForm.value.email, this.loginForm.value.password).then((val) => {
       this.presentLoading();
       if (val.user) {
         this.presentToast('Logged In successfully..');
@@ -35,7 +35,7 @@ export class SigninPage implements OnInit {
       }
     }).catch((error) => {
       this.presentAlert(error.message)
-    }); 
+    });
   }
 
   async presentAlert(msg) {
