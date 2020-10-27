@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, Renderer2 } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { LoadingController, ModalController, IonSlides } from '@ionic/angular';
 
 import * as firebase from 'firebase';
 @Component({
@@ -11,6 +11,7 @@ export class ModalPage implements OnInit {
   materialCollection = firebase.firestore();
   price: 0;
   @Input("value") value;
+  @ViewChild(IonSlides) slides: IonSlides;
   materialForm;
   price1;
   price3;
@@ -26,23 +27,64 @@ export class ModalPage implements OnInit {
   pet005
   pet001
   pet003
-  constructor(public loadingController: LoadingController, public renderer : Renderer2) {
+  showHeader = true;
+  valueC = '';
+  constructor(public loadingController: LoadingController, public renderer: Renderer2,
+    public modalController: ModalController) {
+
     // this.materialCollection = .;
     setTimeout(() => {
-      this.renderer.setStyle(document.getElementById('pc1'), 'display','none');
+      this.renderer.setStyle(document.getElementById('pc1'), 'display', 'none');
+      
+      
+      console.log("Slide index ",this.slides.getActiveIndex());
+      
     }, 0);
-    
+
   }
 
   ngOnInit() {
     //print 123
     // console.log(this.value);
-  
+    // this.valueC = 'Paper';
+    setTimeout(() => {
+      this.slides.lockSwipes(true);
+      this.materialClicked('Paper');
+    }, 500);
     
     // document.getElementById("pc1").classList.contains("hide");
     this.getPapers();
     // console.log("My update array ",this.updateArray);
 
+  }
+  materialClicked(val) {
+    this.valueC = val;
+    this.materialCollection.collection(this.valueC).onSnapshot((res) => {
+      this.infoArr = [];
+      res.forEach((data) => {
+        this.infoArr.push({ id: data.id, doc: data.data() });
+      })
+    })
+  }
+  slideNext() {
+    this.slides.lockSwipes(false).then(() => {
+      this.slides.slideNext().then((val) => {
+        this.showHeader = false;
+        this.slides.lockSwipes(true);
+      });
+    })
+
+  }
+  slidePrev(){
+    this.slides.lockSwipes(false).then(() => {
+      this.slides.slidePrev().then((val) => {
+        this.showHeader = true;
+        this.slides.lockSwipes(true);
+      });
+    })
+  }
+  closeModal() {
+    this.modalController.dismiss()
   }
   addPaper() {
     // this.infoArr.forEach((el)=>{
@@ -85,7 +127,7 @@ export class ModalPage implements OnInit {
   }
 
   getPapers() {
-    this.presentLoading();
+    // this.presentLoading();
     this.materialCollection.collection(this.value).onSnapshot((res) => {
       this.infoArr = [];
       this.updateArray = [];
@@ -267,17 +309,17 @@ export class ModalPage implements OnInit {
   }
 
   pcsh1() {
-     this.renderer.setStyle(document.getElementById('pc1'), 'display','flex');
-  this.renderer.setStyle(document.getElementById('pc1'), 'animation-name','bounceInRight');
-  this.renderer.setStyle(document.getElementById('pc1'), 'animation-duration','1s');
+    this.renderer.setStyle(document.getElementById('pc1'), 'display', 'flex');
+    this.renderer.setStyle(document.getElementById('pc1'), 'animation-name', 'bounceInRight');
+    this.renderer.setStyle(document.getElementById('pc1'), 'animation-duration', '1s');
     // this.renderer.setStyle(document.getElementById('pc1'), 'z-index','1');
-}
-closeDiv() {
-  // this.renderer.setStyle(document.getElementById('pc1'), 'display','none');
-  this.renderer.setStyle(document.getElementById('pc1'), 'animation-name','bounceOutRight');
-  this.renderer.setStyle(document.getElementById('pc1'), 'animation-duration','1s');
-  setTimeout(() => {
-    this.renderer.setStyle(document.getElementById('pc1'), 'display','none');
-  }, 500);
-}
+  }
+  closeDiv() {
+    // this.renderer.setStyle(document.getElementById('pc1'), 'display','none');
+    this.renderer.setStyle(document.getElementById('pc1'), 'animation-name', 'bounceOutRight');
+    this.renderer.setStyle(document.getElementById('pc1'), 'animation-duration', '1s');
+    setTimeout(() => {
+      this.renderer.setStyle(document.getElementById('pc1'), 'display', 'none');
+    }, 500);
+  }
 }

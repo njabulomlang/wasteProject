@@ -1,11 +1,18 @@
-<ion-header *ngIf="value==='Paper_Inbound'" style="display: flex;align-items: center; margin: 0 15px 0px 15px;">
+<ion-header *ngIf="value==='Paper_Inbound'" class="ion-no-border"
+  style="display: flex;align-items: center; margin: 0 15px 0px 15px;">
   <img src="../../assets/inboundB.svg" style="margin-top: 10px;" width="30" height="30" alt="">
   <!-- <ion-toolbar style="padding-left: 10px; "> -->
 
   <h1 style="line-height: 30px;margin-left: 10px;">Inbound drivers</h1>
+  <ion-button fill="clear" color="danger" (click)="closeModal()" style=" margin-left: 50%;">
+    <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+  </ion-button>
   <!-- </ion-toolbar> -->
 </ion-header>
 
+<ion-header *ngIf="showHeader == true">
+  <ion-searchbar style="background-color: whitesmoke;" inputmode="numeric"></ion-searchbar>
+</ion-header>
 <ion-content *ngIf="value==='Paper'">
   <div class="modal_container">
     <!-- <form > -->
@@ -183,104 +190,131 @@
 
 <ion-content *ngIf="value==='Paper_Inbound'">
   <div class="paper_In_container">
-    <ion-card style="flex: 1;">
-      <ion-card-header>
-        <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
-        <ion-card-title>
-          <ion-searchbar inputmode="numeric"></ion-searchbar>
-        </ion-card-title>
-      </ion-card-header>
+    <ion-slides style="margin: 0; padding: 0;height: 40vh;" #slides>
+      <ion-slide>
+        <ion-card style="flex: 1;">
+          <ion-card-content>
+            <ion-list lines="none">
+              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
+                <div style="display: flex; flex-direction: column;">
+                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
+                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
+                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
+                </div>
+              </ion-item>
 
-      <ion-card-content>
-        <ion-list lines="none">
-          <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-            <div style="display: flex; flex-direction: column;">
-              <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-              <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-              <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-            </div>
-          </ion-item>
+              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
+                <div style="display: flex; flex-direction: column;">
+                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
+                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
+                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
+                </div>
+              </ion-item>
 
-          <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-            <div style="display: flex; flex-direction: column;">
-              <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-              <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-              <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-            </div>
-          </ion-item>
+              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
+                <div style="display: flex; flex-direction: column;">
+                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
+                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
+                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
+                </div>
+              </ion-item>
 
-          <!-- <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-            <div style="display: flex; flex-direction: column;">
-              <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-              <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-              <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-            </div>
-          </ion-item>
-  
-          <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-            <div style="display: flex; flex-direction: column;">
-              <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-              <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-              <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-            </div>
-          </ion-item>
-  
-          <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-            <div style="display: flex; flex-direction: column;">
-              <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-              <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-              <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-            </div>
-          </ion-item>
-  
-          <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-            <div style="display: flex; flex-direction: column;">
-              <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-              <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-              <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-            </div>
-          </ion-item> -->
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-    <div id="pc1" style="width: 300px; height: 45vh; ">
-     
+              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
+                <div style="display: flex; flex-direction: column;">
+                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
+                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
+                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
+                </div>
+              </ion-item>
 
-      <ion-card>
-        <ion-card-header color="success">
-          <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
-          <!-- <ion-card-title> <ion-icon slot="end" name="arrow-back" (click)="closeDiv()" style="width: 30px; height: 5vh;"></ion-icon> <h4>Create New Driver</h4></ion-card-title> -->
+              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
+                <div style="display: flex; flex-direction: column;">
+                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
+                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
+                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
+                </div>
+              </ion-item>
 
-          <!-- <ion-item> -->
-            
-            <ion-button color="light" fill=clear (click)="closeDiv()">
-              <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-            </ion-button>  
-            Create New Driver        
-          <!-- </ion-item> -->
-        </ion-card-header>
-      
-        <ion-item href="#" class="ion-activated">
-          <ion-icon name="wifi" slot="start"></ion-icon>
-          <ion-label>Card Link Item 1 activated</ion-label>
-        </ion-item>
-      
-        <ion-item href="#">
-          <ion-icon name="wine" slot="start"></ion-icon>
-          <ion-label>Card Link Item 2</ion-label>
-        </ion-item>
-      
-        <ion-item class="ion-activated">
-          <ion-icon name="warning" slot="start"></ion-icon>
-          <ion-label>Card Button Item 1 activated</ion-label>
-        </ion-item>
-      
-        <ion-item>
-          <ion-icon name="walk" slot="start"></ion-icon>
-          <ion-label>Card Button Item 2</ion-label>
-        </ion-item>
-      </ion-card>
-    </div>
+              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
+                <div style="display: flex; flex-direction: column;">
+                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
+                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
+                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
+                </div>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+        <div id="pc1" style="width: 300px; height: 45vh; ">
+          <ion-card>
+            <ion-card-header color="success" style="height: 6vh; margin: 4px;">
+              <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+              <!-- <ion-card-title> <ion-icon slot="end" name="arrow-back" (click)="closeDiv()" style="width: 30px; height: 5vh;"></ion-icon> <h4>Create New Driver</h4></ion-card-title> -->
+
+              <!-- <ion-item> -->
+
+              <ion-button color="light" fill=clear (click)="closeDiv()">
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+              </ion-button>
+              Create New Driver
+              <!-- </ion-item> -->
+            </ion-card-header>
+
+            <ion-item>
+              <ion-avatar style="margin: auto;">
+                <img src="../../assets/user (1).png">
+              </ion-avatar>
+            </ion-item>
+
+            <ion-input
+              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+              placeholder="Full name"></ion-input>
+
+            <ion-input
+              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+              placeholder="Phone number"></ion-input>
+
+            <ion-input
+              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+              placeholder="Registration no."></ion-input>
+
+            <ion-input
+              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color:rgb(0, 0, 0);"
+              placeholder="Company name"></ion-input>
+
+            <ion-input
+              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+              placeholder="Company address"></ion-input>
+
+            <!-- <ion-button color="primary" style="margin-left: 25%;">Primary</ion-button> -->
+          </ion-card>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <ion-card style="width: 100%; height: 100%;">
+          <ion-card-header style="display: flex; width: 100%; justify-content: space-between; border-bottom: rgba(128, 128, 128, 0.685) 1px solid;">
+            <ion-button [color]="valueC == 'Paper' ? 'success' : 'light'" style="flex: 1; --box-shadow:none;" (click)="materialClicked('Paper', $event,0)">Paper</ion-button>
+            <ion-button [color]="valueC == 'Plastic' ? 'success' : 'light'" style="flex: 1;  --box-shadow:none;" (click)="materialClicked('Plastic', $event,1)">Plastic</ion-button>
+            <ion-button [color]="valueC == 'Glass' ? 'success' : 'light'" style="flex: 1;  --box-shadow:none;" (click)="materialClicked('Glass', $event,2)">Glass</ion-button>
+            <ion-button [color]="valueC == 'Aluminium'? 'success' : 'light'" style="flex: 1;  --box-shadow:none;" (click)="materialClicked('Aluminium', $event,3)">Aluminium</ion-button>
+          </ion-card-header>
+
+          <ion-card-content>
+            <!-- <ion-item> -->
+              <div style="text-align: right;" style="display: flex;flex-wrap: wrap;" *ngFor="let y of infoArr">
+                <div *ngFor="let z of y.doc.paper" style="width: 250px;">
+                  <ion-input id="material" placeholder="Enter mass" style="text-align: left;"></ion-input>
+                 <p for="material" >{{z.name}}</p>
+                </div>
+                 
+              </div>
+             
+            <!-- </ion-item> -->
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+
   </div>
 
 
@@ -293,11 +327,13 @@
 </ion-footer> -->
 
 <ion-footer *ngIf="value==='Paper_Inbound'" style="display: flex; flex-direction: column;align-items: flex-end;">
-  <ion-button style="align-self: center;" (click)="pcsh1()">
+  <ion-button style="align-self: center;" *ngIf="showHeader == true" (click)="pcsh1()">
     <ion-icon slot="start" name="add-circle-outline"></ion-icon>
     Add Driver
   </ion-button>
   <div style="display: flex; align-items: flex-end;">
-    <ion-button color="success">Success</ion-button>
+    <ion-button *ngIf="showHeader == true" color="tertiary" (click)="slideNext()">Next</ion-button>
+    <ion-button *ngIf="showHeader == false" color="tertiary" (click)="slidePrev()">Back</ion-button>
+    <ion-button *ngIf="showHeader == false" color="tertiary" (click)="slideNext()">Done</ion-button>
   </div>
 </ion-footer>

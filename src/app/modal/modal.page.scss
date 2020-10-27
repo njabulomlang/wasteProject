@@ -4,6 +4,21 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+.bar-header {
+    // border: 0px !important;
+    // border-bottom-color: transparent !important;
+    background-image: none !important;
+    // border-bottom: none !important;
+    display: flex;align-items: center; margin: 0 15px 0px 15px; 
+    border-bottom-color: transparent !important;
+    border: 0px !important; 
+    border-bottom: none !important;
+}
+ion-slide {
+    height: 50vh; 
+    width: 100%;
+}
+
 
 .modal_container > ion-input {
     width: 300px;
