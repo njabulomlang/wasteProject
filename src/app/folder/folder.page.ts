@@ -22,7 +22,7 @@ export class FolderPage implements OnInit {
   infoPaper: any[];
   infoGlass: any[];
   infoAl: any[];
-
+  
   constructor(private activatedRoute: ActivatedRoute, public menuCtrl: MenuController, private navCtrl: NavController, public toastController: ToastController,
     public modalController: ModalController) {
     this.menuCtrl.enable(true);
@@ -45,7 +45,7 @@ export class FolderPage implements OnInit {
 
     const modal = await this.modalController.create({
       component: ModalPage,
-      cssClass: 'my-custom-class',
+      cssClass: 'modalCss',
       componentProps: { value: material }
     });
     return await modal.present();

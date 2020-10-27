@@ -210,7 +210,7 @@
 
     --ion-card-background: #1c1c1d;
   }
-
+ 
 
   /*
    * Material Design Dark Theme
@@ -254,4 +254,9 @@
 
     --ion-card-background: #1e1e1e;
   }
+}
+
+  .custom-modal .modal-wrapper {
+      animation-name: bounceInRight;
+      animation-duration: 3s;
 }

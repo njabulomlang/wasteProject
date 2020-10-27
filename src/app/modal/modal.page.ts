@@ -29,16 +29,14 @@ export class ModalPage implements OnInit {
   pet003
   showHeader = true;
   valueC = '';
+  mass;
+  inputMasses = [];
   constructor(public loadingController: LoadingController, public renderer: Renderer2,
     public modalController: ModalController) {
 
     // this.materialCollection = .;
     setTimeout(() => {
       this.renderer.setStyle(document.getElementById('pc1'), 'display', 'none');
-      
-      
-      console.log("Slide index ",this.slides.getActiveIndex());
-      
     }, 0);
 
   }
@@ -47,11 +45,21 @@ export class ModalPage implements OnInit {
     //print 123
     // console.log(this.value);
     // this.valueC = 'Paper';
+
     setTimeout(() => {
       this.slides.lockSwipes(true);
-      this.materialClicked('Paper');
+      if (this.value == 'Paper_Inbound') {
+        this.materialClicked('Paper');
+      } else if (this.value == 'Plastic_Inbound') {
+        this.materialClicked('Plastic')
+      } else if (this.value == 'Aluminium_Inbound') {
+        this.materialClicked('Aluminium')
+      } else {
+        this.materialClicked('Glass')
+      }
+
     }, 500);
-    
+
     // document.getElementById("pc1").classList.contains("hide");
     this.getPapers();
     // console.log("My update array ",this.updateArray);
@@ -75,7 +83,15 @@ export class ModalPage implements OnInit {
     })
 
   }
-  slidePrev(){
+
+  pushToArray(ev) {
+    console.log("Event ", ev);
+    // this.inputMasses.push()
+  }
+  addInbound() {
+    console.log("My masses ", this.mass);
+  }
+  slidePrev() {
     this.slides.lockSwipes(false).then(() => {
       this.slides.slidePrev().then((val) => {
         this.showHeader = true;

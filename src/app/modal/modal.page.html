@@ -1,13 +1,11 @@
-<ion-header *ngIf="value==='Paper_Inbound'" class="ion-no-border"
-  style="display: flex;align-items: center; margin: 0 15px 0px 15px;">
+<ion-header
+  *ngIf="value==='Paper_Inbound' || value == 'Aluminium_Inbound' || value == 'Plastic_Inbound' ||value == 'Glass_Inbound'"
+  class="ion-no-border" style="display: flex;align-items: center; margin: 0 15px 0px 15px;">
   <img src="../../assets/inboundB.svg" style="margin-top: 10px;" width="30" height="30" alt="">
-  <!-- <ion-toolbar style="padding-left: 10px; "> -->
-
   <h1 style="line-height: 30px;margin-left: 10px;">Inbound drivers</h1>
   <ion-button fill="clear" color="danger" (click)="closeModal()" style=" margin-left: 50%;">
     <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
   </ion-button>
-  <!-- </ion-toolbar> -->
 </ion-header>
 
 <ion-header *ngIf="showHeader == true">
@@ -188,7 +186,8 @@
 
 </ion-content>
 
-<ion-content *ngIf="value==='Paper_Inbound'">
+<ion-content
+  *ngIf="value==='Paper_Inbound' || value == 'Aluminium_Inbound' || value == 'Plastic_Inbound' ||value == 'Glass_Inbound'">
   <div class="paper_In_container">
     <ion-slides style="margin: 0; padding: 0;height: 40vh;" #slides>
       <ion-slide>
@@ -292,24 +291,26 @@
       </ion-slide>
       <ion-slide>
         <ion-card style="width: 100%; height: 100%;">
-          <ion-card-header style="display: flex; width: 100%; justify-content: space-between; border-bottom: rgba(128, 128, 128, 0.685) 1px solid;">
-            <ion-button [color]="valueC == 'Paper' ? 'success' : 'light'" style="flex: 1; --box-shadow:none;" (click)="materialClicked('Paper', $event,0)">Paper</ion-button>
-            <ion-button [color]="valueC == 'Plastic' ? 'success' : 'light'" style="flex: 1;  --box-shadow:none;" (click)="materialClicked('Plastic', $event,1)">Plastic</ion-button>
-            <ion-button [color]="valueC == 'Glass' ? 'success' : 'light'" style="flex: 1;  --box-shadow:none;" (click)="materialClicked('Glass', $event,2)">Glass</ion-button>
-            <ion-button [color]="valueC == 'Aluminium'? 'success' : 'light'" style="flex: 1;  --box-shadow:none;" (click)="materialClicked('Aluminium', $event,3)">Aluminium</ion-button>
+          <ion-card-header
+            style="display: flex; width: 100%; justify-content: space-between; border-bottom: rgba(128, 128, 128, 0.685) 1px solid;">
+            <ion-button [color]="valueC == 'Paper' ? 'success' : 'light'" style="flex: 1; --box-shadow:none;"
+              (click)="materialClicked('Paper', $event,0)">Paper</ion-button>
+            <ion-button [color]="valueC == 'Plastic' ? 'success' : 'light'" style="flex: 1;  --box-shadow:none;"
+              (click)="materialClicked('Plastic', $event,1)">Plastic</ion-button>
+            <ion-button [color]="valueC == 'Glass' ? 'success' : 'light'" style="flex: 1;  --box-shadow:none;"
+              (click)="materialClicked('Glass', $event,2)">Glass</ion-button>
+            <ion-button [color]="valueC == 'Aluminium'? 'success' : 'light'" style="flex: 1;  --box-shadow:none;"
+              (click)="materialClicked('Aluminium', $event,3)">Aluminium</ion-button>
           </ion-card-header>
 
           <ion-card-content>
-            <!-- <ion-item> -->
-              <div style="text-align: right;" style="display: flex;flex-wrap: wrap;" *ngFor="let y of infoArr">
-                <div *ngFor="let z of y.doc.paper" style="width: 250px;">
-                  <ion-input id="material" placeholder="Enter mass" style="text-align: left;"></ion-input>
-                 <p for="material" >{{z.name}}</p>
-                </div>
-                 
+            <div style="text-align: right;" style="display: flex;flex-wrap: wrap;" *ngFor="let y of infoArr;let i=index">
+              <div *ngFor="let z of y.doc.paper" style="width: 250px;">
+                <ion-input id="material" placeholder="Enter mass" style="text-align: left;"></ion-input>
+                <p for="material">{{z.name}}</p>
               </div>
-             
-            <!-- </ion-item> -->
+
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-slide>
@@ -320,13 +321,11 @@
 
 
 </ion-content>
-<!-- <ion-footer *ngIf="value==='Paper_Inbound'" style="display: flex;align-items: center">
-  <div style="display: flex; align-items: center;">
-    <ion-button color="success" >Success</ion-button>
-  </div>
-</ion-footer> -->
 
-<ion-footer *ngIf="value==='Paper_Inbound'" style="display: flex; flex-direction: column;align-items: flex-end;">
+
+<ion-footer
+  *ngIf="value==='Paper_Inbound' || value == 'Aluminium_Inbound' || value == 'Plastic_Inbound' ||value == 'Glass_Inbound'"
+  style="display: flex; flex-direction: column;align-items: flex-end;">
   <ion-button style="align-self: center;" *ngIf="showHeader == true" (click)="pcsh1()">
     <ion-icon slot="start" name="add-circle-outline"></ion-icon>
     Add Driver
@@ -334,6 +333,6 @@
   <div style="display: flex; align-items: flex-end;">
     <ion-button *ngIf="showHeader == true" color="tertiary" (click)="slideNext()">Next</ion-button>
     <ion-button *ngIf="showHeader == false" color="tertiary" (click)="slidePrev()">Back</ion-button>
-    <ion-button *ngIf="showHeader == false" color="tertiary" (click)="slideNext()">Done</ion-button>
+    <ion-button *ngIf="showHeader == false" color="tertiary" (click)="addInbound()">Done</ion-button>
   </div>
 </ion-footer>
