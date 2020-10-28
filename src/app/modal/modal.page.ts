@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { LoadingController, ModalController, IonSlides } from '@ionic/angular';
+import { FormControl, Validators } from '@angular/forms';
+import { LoadingController, ModalController, IonSlides, AlertController } from '@ionic/angular';
 
 import * as firebase from 'firebase';
 @Component({
@@ -30,13 +31,40 @@ export class ModalPage implements OnInit {
   showHeader = true;
   valueC = '';
   mass;
-  inputMasses = [];
+  inputMass = [];
+  myInput = [];
+
+  // obj = {
+  //   fullName:'',
+  //   phoneNumber:0,
+  //   regNo:'',
+  //   cName:'',
+  //   profilePic:null,
+  //   cAddress:''
+  // }
+  fullName = new FormControl('', Validators.required);
+  phoneNumber = new FormControl(null, Validators.minLength(10));
+  regNo = new FormControl('', Validators.required);
+  cName = new FormControl('', Validators.required);
+  profilePic = new FormControl(null, Validators.required);
+  cAddress = new FormControl('', Validators.required);
+  // @Input() lastName: string;
+  // @Input() middleInitial: string;
+
+  storage = firebase.storage().ref();
+  progress;
+  fb = firebase.firestore();
+  driver_id;
+  driver_name;
+  reg_no;
+  driverArr: any[];
   constructor(public loadingController: LoadingController, public renderer: Renderer2,
-    public modalController: ModalController) {
+    public modalController: ModalController, public alertController: AlertController) {
 
     // this.materialCollection = .;
     setTimeout(() => {
       this.renderer.setStyle(document.getElementById('pc1'), 'display', 'none');
+
     }, 0);
 
   }
@@ -62,8 +90,28 @@ export class ModalPage implements OnInit {
 
     // document.getElementById("pc1").classList.contains("hide");
     this.getPapers();
+    this.getDriver();
     // console.log("My update array ",this.updateArray);
-
+  }
+  ionViewWillEnter() {
+    this.getPapers();
+  }
+  addEventListener(ev) {
+    console.log("my pic ", ev.target.files[0]);
+    const upload = this.storage.child('Driver_Pictures/' + ev.target.files[0].name).put(ev.target.files[0]);
+    upload.on('state_changed', snapshot => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      this.progress = progress;
+      // console.log('upload is: ', progress, '% done.');
+    }, err => {
+    }, () => {
+      upload.snapshot.ref.getDownloadURL().then(dwnURL => {
+        //  console.log('File avail at: ', dwnURL);
+        this.profilePic = dwnURL;
+        // this.dbProfile.doc(firebase.auth().currentUser.uid).update({profilePic: this.profilePic})
+      });
+    });
+    // console.log("My pic is ", this.profilePic);
   }
   materialClicked(val) {
     this.valueC = val;
@@ -75,21 +123,82 @@ export class ModalPage implements OnInit {
     })
   }
   slideNext() {
-    this.slides.lockSwipes(false).then(() => {
-      this.slides.slideNext().then((val) => {
-        this.showHeader = false;
-        this.slides.lockSwipes(true);
-      });
+
+    let obj = {
+      profilePic: this.profilePic,
+      fullName: this.fullName.value, phoneNumber: this.phoneNumber.value, regNo: this.regNo.value,
+      companyName: this.cName.value, companyAddress: this.cAddress.value
+    }
+    console.log("my details ", obj);
+    // setTimeout(() => {
+    this.fb.collection('Driver').add(obj).then((res) => {
+      this.slides.lockSwipes(false).then(() => {
+        this.slides.slideNext().then((val) => {
+          this.showHeader = false;
+          this.slides.lockSwipes(true);
+          this.getPapers();
+        });
+      })
+      res.onSnapshot((doc) => {
+        this.driver_id = doc.id;
+        console.log("My doc ", doc.data());
+      })
     })
+    // }, 100);
 
   }
+  async presentAlert(id) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: 'Are you sure you want to use this driver?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        }, {
+          text: 'Yes',
+          handler: () => {
+            this.slides.lockSwipes(false).then(() => {
+              this.slides.slideNext().then((val) => {
+                this.showHeader = false;
+                this.driver_id = id;
+                this.slides.lockSwipes(true);
+                this.getPapers();
+              });
+            })
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+  // slideWithId(id) {
+  //   this.presentAlert();
 
-  pushToArray(ev) {
-    console.log("Event ", ev);
-    // this.inputMasses.push()
+  // }
+
+  getDriver() {
+    this.fb.collection("Driver").onSnapshot((res) => {
+      this.driverArr = [];
+      res.forEach((doc) => {
+        this.driverArr.push({ id: doc.id, info: doc.data() });
+      })
+    })
+  }
+  pushToArray() {
+    this.inputMass.push(this.myInput[this.myInput.length - 1]);
+    setTimeout(() => {
+      this.myInput = [];
+    }, 100);
   }
   addInbound() {
-    console.log("My masses ", this.mass);
+    this.fb.collection("Inbound").add({
+      driverID: this.driver_id,
+      masses: this.inputMass,
+      date: new Date().getTime()
+    })
+    // console.log("My masses ", this.inputMass);
   }
   slidePrev() {
     this.slides.lockSwipes(false).then(() => {
@@ -101,6 +210,13 @@ export class ModalPage implements OnInit {
   }
   closeModal() {
     this.modalController.dismiss()
+  }
+  showPrice(ev, z) {
+
+    // this.inputMass = ev.detail.value;
+    this.myInput.push({ name: z.name, mass: ev.detail.value })
+    // console.log("My event ",{name:z.name, mass: ev.detail.value});
+    // this.pushToArray(ev.detail.value)
   }
   addPaper() {
     // this.infoArr.forEach((el)=>{

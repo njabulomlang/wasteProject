@@ -22,7 +22,8 @@ export class FolderPage implements OnInit {
   infoPaper: any[];
   infoGlass: any[];
   infoAl: any[];
-  
+  fb = firebase.firestore();
+  inboundArray = [];
   constructor(private activatedRoute: ActivatedRoute, public menuCtrl: MenuController, private navCtrl: NavController, public toastController: ToastController,
     public modalController: ModalController) {
     this.menuCtrl.enable(true);
@@ -34,12 +35,22 @@ export class FolderPage implements OnInit {
     this.getPaper();
     this.getGlass();
     this.getAlum();
+    this.getInbounds();
   }
   ionViewDidEnter() {
     this.plotSimpleBarChart();
     this.plotSimpleBarChart1();
     this.plotSimpleBarChart2();
   }
+   getInbounds() {
+        this.fb.collection("Inbound").onSnapshot((res1)=>{
+          this.inboundArray = [];
+          res1.forEach((doc)=>{
+            this.inboundArray.push(doc.data());
+          })
+          console.log("My inbound ", this.inboundArray);
+        })
+   }
   async createModal(material) {
     // console.log('My values', PAP001, PAP003, PAP005, PAP007);
 

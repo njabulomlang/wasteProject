@@ -9,7 +9,9 @@
 </ion-header>
 
 <ion-header *ngIf="showHeader == true">
-  <ion-searchbar style="background-color: whitesmoke;" inputmode="numeric"></ion-searchbar>
+  <ion-searchbar
+    *ngIf="value==='Paper_Inbound' || value == 'Aluminium_Inbound' || value == 'Plastic_Inbound' ||value == 'Glass_Inbound'"
+    style="background-color: whitesmoke;" inputmode="numeric"></ion-searchbar>
 </ion-header>
 <ion-content *ngIf="value==='Paper'">
   <div class="modal_container">
@@ -194,51 +196,11 @@
         <ion-card style="flex: 1;">
           <ion-card-content>
             <ion-list lines="none">
-              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
+              <ion-item color="medium" style="margin: 10px; border-radius: 5px;" (click)="presentAlert(d.id)" *ngFor="let d of driverArr">
                 <div style="display: flex; flex-direction: column;">
-                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-                </div>
-              </ion-item>
-
-              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-                <div style="display: flex; flex-direction: column;">
-                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-                </div>
-              </ion-item>
-
-              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-                <div style="display: flex; flex-direction: column;">
-                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-                </div>
-              </ion-item>
-
-              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-                <div style="display: flex; flex-direction: column;">
-                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-                </div>
-              </ion-item>
-
-              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-                <div style="display: flex; flex-direction: column;">
-                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
-                </div>
-              </ion-item>
-
-              <ion-item color="medium" style="margin: 10px; border-radius: 5px;">
-                <div style="display: flex; flex-direction: column;">
-                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">Driver name</h3>
-                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">Code</h4>
-                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">Reg number</p>
+                  <h3 style="color: black; text-transform: uppercase; font-weight: bold;">{{d.info.fullName}}</h3>
+                  <h4 style="color: rgb(80, 80, 80);text-transform: uppercase;">{{d.id}}</h4>
+                  <p style="color: rgb(80, 80, 80);text-transform: uppercase;">{{d.info.regNo}}</p>
                 </div>
               </ion-item>
             </ion-list>
@@ -260,30 +222,38 @@
             </ion-card-header>
 
             <ion-item>
-              <ion-avatar style="margin: auto;">
+              <ion-avatar *ngIf="!profilePic" style="margin: auto;">
                 <img src="../../assets/user (1).png">
+                <ion-progress-bar value="{{progress}}"></ion-progress-bar>
               </ion-avatar>
+              <ion-avatar *ngIf="profilePic" style="margin: auto;">
+                <img style="border: rgb(54, 109, 0) solid 1px;" src="{{profilePic}}">
+              </ion-avatar>
+              <input type="file" id="fileUpload" (change)="addEventListener($event)">
+              
             </ion-item>
+            <!-- <form [formGroup]="driverForm"> -->
+              <ion-input
+                style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+                placeholder="Full name" [formControl]="fullName"></ion-input>
 
-            <ion-input
-              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-              placeholder="Full name"></ion-input>
+              <ion-input
+                style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+                placeholder="Phone number" [formControl]="phoneNumber"></ion-input>
 
-            <ion-input
-              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-              placeholder="Phone number"></ion-input>
+              <ion-input
+                style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+                placeholder="Registration no." [formControl]="regNo"></ion-input>
 
-            <ion-input
-              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-              placeholder="Registration no."></ion-input>
+              <ion-input
+                style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color:rgb(0, 0, 0);"
+                placeholder="Company name" [formControl]="cName"></ion-input>
 
-            <ion-input
-              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color:rgb(0, 0, 0);"
-              placeholder="Company name"></ion-input>
+              <ion-input
+                style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+                placeholder="Company address" [formControl]="cAddress"></ion-input>
+            <!-- </form> -->
 
-            <ion-input
-              style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-              placeholder="Company address"></ion-input>
 
             <!-- <ion-button color="primary" style="margin-left: 25%;">Primary</ion-button> -->
           </ion-card>
@@ -304,9 +274,11 @@
           </ion-card-header>
 
           <ion-card-content>
-            <div style="text-align: right;" style="display: flex;flex-wrap: wrap;" *ngFor="let y of infoArr;let i=index">
+            <div style="text-align: right;" style="display: flex;flex-wrap: wrap;"
+              *ngFor="let y of infoArr;let i=index">
               <div *ngFor="let z of y.doc.paper" style="width: 250px;">
-                <ion-input id="material" placeholder="Enter mass" style="text-align: left;"></ion-input>
+                <ion-input id="material" (ionChange)="showPrice($event, z)" (ionBlur)="pushToArray()"
+                  placeholder="Enter mass" style="text-align: left;"></ion-input>
                 <p for="material">{{z.name}}</p>
               </div>
 
@@ -331,7 +303,7 @@
     Add Driver
   </ion-button>
   <div style="display: flex; align-items: flex-end;">
-    <ion-button *ngIf="showHeader == true" color="tertiary" (click)="slideNext()">Next</ion-button>
+    <ion-button *ngIf="showHeader == true" [disabled] = "fullName.invalid || phoneNumber.invalid || regNo.invalid || profilePic.invalid || cName.invalid || cAddress.invalid" color="tertiary" (click)="slideNext()">Next</ion-button>
     <ion-button *ngIf="showHeader == false" color="tertiary" (click)="slidePrev()">Back</ion-button>
     <ion-button *ngIf="showHeader == false" color="tertiary" (click)="addInbound()">Done</ion-button>
   </div>
