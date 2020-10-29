@@ -48,6 +48,9 @@ export class ModalPage implements OnInit {
   cName = new FormControl('', Validators.required);
   profilePic = new FormControl(null, Validators.required);
   cAddress = new FormControl('', Validators.required);
+  idNumber = new FormControl(null, Validators.minLength(13));
+  streetName = new FormControl('', Validators.required);
+  town = new FormControl('', Validators.required);
   // @Input() lastName: string;
   // @Input() middleInitial: string;
 
@@ -56,8 +59,16 @@ export class ModalPage implements OnInit {
   fb = firebase.firestore();
   driver_id;
   driver_name;
+  phone_number;
   reg_no;
+  id_no;
+
   driverArr: any[];
+  searchtxt: any;
+  searchedItems: any;
+  OutArr: any[];
+  pr = 234;
+  reclaimerArr: any[];
   constructor(public loadingController: LoadingController, public renderer: Renderer2,
     public modalController: ModalController, public alertController: AlertController) {
 
@@ -71,31 +82,32 @@ export class ModalPage implements OnInit {
 
   ngOnInit() {
     //print 123
-    // console.log(this.value);
+    console.log(this.value);
     // this.valueC = 'Paper';
 
     setTimeout(() => {
       this.slides.lockSwipes(true);
-      if (this.value == 'Paper_Inbound') {
+      if (this.value == 'Paper_Inbound' || this.value == 'Paper_Outbound' || this.value == 'Paper_Reclaimer') {
         this.materialClicked('Paper');
-      } else if (this.value == 'Plastic_Inbound') {
-        this.materialClicked('Plastic')
-      } else if (this.value == 'Aluminium_Inbound') {
-        this.materialClicked('Aluminium')
+        this.getPapers('Paper');
+      } else if (this.value == 'Plastic_Inbound' || this.value == 'Plastic_Outbound' || this.value == 'Plastic_Reclaimer') {
+        this.materialClicked('Plastic');
+        this.getPapers('Plastic');
+      } else if (this.value == 'Aluminium_Inbound' || this.value == 'Aluminium_Outbound' || this.value == 'Aluminium_Reclaimer') {
+        this.materialClicked('Aluminium');
+        this.getPapers('Aluminium');
       } else {
-        this.materialClicked('Glass')
+        this.materialClicked('Glass');
+        this.getPapers('Glass')
       }
-
     }, 500);
 
     // document.getElementById("pc1").classList.contains("hide");
-    this.getPapers();
+    // this.getPapers();
     this.getDriver();
     // console.log("My update array ",this.updateArray);
   }
-  ionViewWillEnter() {
-    this.getPapers();
-  }
+
   addEventListener(ev) {
     console.log("my pic ", ev.target.files[0]);
     const upload = this.storage.child('Driver_Pictures/' + ev.target.files[0].name).put(ev.target.files[0]);
@@ -136,18 +148,64 @@ export class ModalPage implements OnInit {
         this.slides.slideNext().then((val) => {
           this.showHeader = false;
           this.slides.lockSwipes(true);
-          this.getPapers();
+          // this.getPapers();
         });
       })
       res.onSnapshot((doc) => {
         this.driver_id = doc.id;
         console.log("My doc ", doc.data());
+        this.driver_name = doc.data().fullName;
+        this.reg_no = doc.data().regNo;
       })
     })
-    // }, 100);
-
   }
-  async presentAlert(id) {
+
+  slideNextOutbound() {
+    let obj = {
+      profilePic: this.profilePic,
+      fullName: this.fullName.value, phoneNumber: this.phoneNumber.value, regNo: this.regNo.value,
+      companyName: this.cName.value, companyAddress: this.cAddress.value
+    }
+    this.fb.collection('DriverOutbound').add(obj).then((res) => {
+      this.slides.lockSwipes(false).then(() => {
+        this.slides.slideNext().then((val) => {
+          this.showHeader = false;
+          this.slides.lockSwipes(true);
+        });
+      })
+      res.onSnapshot((doc) => {
+        this.driver_id = doc.id;
+        console.log("My doc ", doc.data());
+        this.driver_name = doc.data().fullName;
+        this.reg_no = doc.data().regNo;
+      })
+    })
+  }
+  slideNextReclaimer() {
+    let obj = {
+      profilePic: this.profilePic,
+      fullName: this.fullName.value, phoneNumber: this.phoneNumber.value, idNumber: this.idNumber.value,
+      streetName: this.streetName.value, town: this.town.value
+    }
+    this.fb.collection('Customer').add(obj).then((res) => {
+      this.slides.lockSwipes(false).then(() => {
+        this.slides.slideNext().then((val) => {
+          this.showHeader = false;
+          this.slides.lockSwipes(true);
+        });
+      })
+      res.onSnapshot((doc) => {
+        this.driver_id = doc.id;
+        // console.log("My doc ", doc.data());
+        this.driver_name = doc.data().fullName;
+        this.id_no = doc.data().idNumber;
+        this.phone_number = doc.data().phoneNumber;
+        this.reg_no = doc.data().regNo;
+
+      })
+    })
+  }
+  async presentAlert(y) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Confirm!',
@@ -162,9 +220,13 @@ export class ModalPage implements OnInit {
             this.slides.lockSwipes(false).then(() => {
               this.slides.slideNext().then((val) => {
                 this.showHeader = false;
-                this.driver_id = id;
+                this.driver_id = y.id;
+                this.id_no = y.info.idNumber;
+                this.phone_number = y.info.phoneNumber;
+                this.driver_name = y.info.fullName;
+                this.reg_no = y.info.regNo;
                 this.slides.lockSwipes(true);
-                this.getPapers();
+                // this.getPapers();
               });
             })
           }
@@ -173,32 +235,128 @@ export class ModalPage implements OnInit {
     });
     await alert.present();
   }
-  // slideWithId(id) {
-  //   this.presentAlert();
-
-  // }
 
   getDriver() {
-    this.fb.collection("Driver").onSnapshot((res) => {
-      this.driverArr = [];
-      res.forEach((doc) => {
-        this.driverArr.push({ id: doc.id, info: doc.data() });
+    if (this.value == 'Paper_Inbound' || this.value == 'Plastic_Inbound' || this.value == 'Glass_Inbound' || this.value == 'Aluminium_Inbound') {
+      this.fb.collection("Driver").onSnapshot((res) => {
+        this.driverArr = [];
+        res.forEach((doc) => {
+          this.driverArr.push({ id: doc.id, info: doc.data() });
+        })
       })
-    })
+    } if (this.value == 'Paper_Reclaimer' || this.value == 'Plastic_Reclaimer' || this.value == 'Glass_Reclaimer' || this.value == 'Aluminium_Reclaimer') {
+      this.fb.collection("Customer").onSnapshot((res) => {
+        this.reclaimerArr = [];
+        res.forEach((doc) => {
+          this.reclaimerArr.push({ id: doc.id, info: doc.data() });
+        })
+      })
+    } else {
+      this.fb.collection("DriverOutbound").onSnapshot((res) => {
+        this.OutArr = [];
+        res.forEach((doc) => {
+          this.OutArr.push({ id: doc.id, info: doc.data() });
+        })
+      })
+    }
+
   }
   pushToArray() {
     this.inputMass.push(this.myInput[this.myInput.length - 1]);
     setTimeout(() => {
       this.myInput = [];
     }, 100);
+    // console.log("My ...", this.inputMass);
+
   }
   addInbound() {
+    this.inputMass.sort().splice(this.inputMass.indexOf(undefined));
     this.fb.collection("Inbound").add({
       driverID: this.driver_id,
+      driverName: this.driver_name,
+      regNumber: this.reg_no,
       masses: this.inputMass,
       date: new Date().getTime()
+    }).then((res) => {
+      this.presentLoading();
+      this.modalController.dismiss();
     })
-    // console.log("My masses ", this.inputMass);
+    //  console.log("My masses ", this.inputMass);
+  }
+  addOutbound() {
+    this.inputMass.sort().splice(this.inputMass.indexOf(undefined));
+    this.fb.collection("Outbound").add({
+      driverID: this.driver_id,
+      driverName: this.driver_name,
+      regNumber: this.reg_no,
+      masses: this.inputMass,
+      date: new Date().getTime()
+    }).then((res) => {
+      this.presentLoading();
+      this.modalController.dismiss();
+    })
+  }
+  addReclaimer() {
+    this.inputMass.sort().splice(this.inputMass.indexOf(undefined));
+    this.fb.collection("Reclaimer").add({
+      customerID: this.driver_id,
+      phoneNumber: this.phone_number,
+      fullName: this.driver_name,
+      idNumber: this.id_no,
+      masses: this.inputMass,
+      date: new Date().getTime()
+    }).then((res) => {
+      this.presentLoading();
+      this.modalController.dismiss();
+    })
+  }
+  searchProducts(event) {
+    this.searchtxt = event.target.value;
+    console.log(event);
+    if (this.searchtxt == '') {
+      this.getDriver();
+    } else {
+      let query = event.target.value.trim();
+      setTimeout(() => {
+        this.driverArr = this.driverArr.filter(item => item.info.fullName.toLowerCase().indexOf(query.toLowerCase()) >= 0)
+        // console.log("My search results ", this.searchedItems);
+
+      }, 1000);
+    } {
+      this.getDriver();
+    }
+  }
+  searchReclaimerProducts(event) {
+    this.searchtxt = event.target.value;
+    console.log(event);
+    if (this.searchtxt == '') {
+      this.getDriver();
+    } else {
+      let query = event.target.value.trim();
+      setTimeout(() => {
+        this.driverArr = this.reclaimerArr.filter(item => item.info.fullName.toLowerCase().indexOf(query.toLowerCase()) >= 0)
+        // console.log("My search results ", this.searchedItems);
+
+      }, 1000);
+    } {
+      this.getDriver();
+    }
+  }
+  searchOutboundProducts(event) {
+    this.searchtxt = event.target.value;
+    console.log(event);
+    if (this.searchtxt == '') {
+      this.getDriver();
+    } else {
+      let query = event.target.value.trim();
+      setTimeout(() => {
+        this.driverArr = this.OutArr.filter(item => item.info.fullName.toLowerCase().indexOf(query.toLowerCase()) >= 0)
+        // console.log("My search results ", this.searchedItems);
+
+      }, 1000);
+    } {
+      this.getDriver();
+    }
   }
   slidePrev() {
     this.slides.lockSwipes(false).then(() => {
@@ -258,9 +416,9 @@ export class ModalPage implements OnInit {
     // }, 1000);
   }
 
-  getPapers() {
+  getPapers(material) {
     // this.presentLoading();
-    this.materialCollection.collection(this.value).onSnapshot((res) => {
+    this.materialCollection.collection(material).onSnapshot((res) => {
       this.infoArr = [];
       this.updateArray = [];
       res.forEach((data) => {

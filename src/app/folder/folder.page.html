@@ -211,28 +211,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
+          <tr *ngFor="let y of inboundArray">
+            <th scope="row">{{y.info.driverID}}</th>
+            <td>{{y.info.driverName}}</td>
+            <td>{{y.info.regNumber}}</td>
             <td>
-              <ion-icon name="eye" color="success"></ion-icon>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>
-              <ion-icon name="eye" color="success"></ion-icon>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>
-              <ion-icon name="eye" color="success"></ion-icon>
+              <ion-icon (click)="viewDetail(y.id)" name="eye" color="success"></ion-icon>
             </td>
           </tr>
         </tbody>
@@ -253,22 +237,22 @@
   <div class="inbound_container">
     <div>
       <div style="background-image: url(../../assets/ColorFullMagazines.jpg);">
-        <div (click)="createModal('Paper_Inbound')">
+        <div (click)="createModal('Paper_Outbound')">
           <h4>Paper</h4>
         </div>
       </div>
       <div style="background-image: url(../../assets/BluCapPlasticBottle.jpg);">
-        <div (click)="createModal('Plastic_Inbound')">
+        <div (click)="createModal('Plastic_Outbound')">
           <h4>Plastic</h4>
         </div>
       </div>
       <div style="background-image: url(../../assets/SquashedRedCan.jpg);">
-        <div (click)="createModal('Aluminium_Inbound')">
+        <div (click)="createModal('Aluminium_Outbound')">
           <h4>Aluminium</h4>
         </div>
       </div>
       <div style="background-image: url(../../assets/WhiteWineGlass.jpg);">
-        <div (click)="createModal('Glass_Inbound')">
+        <div (click)="createModal('Glass_Outbound')">
           <h4>Glass</h4>
         </div>
       </div>
@@ -286,26 +270,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>
-              <ion-icon name="eye" color="success"></ion-icon>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>
-              <ion-icon name="eye" color="success"></ion-icon>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
+          <tr *ngFor="let y of outboundArray">
+            <th scope="row">{{y.driverID}}</th>
+            <td>{{y.driverName}}</td>
+            <td>{{y.regNumber}}</td>
             <td>
               <ion-icon name="eye" color="success"></ion-icon>
             </td>
@@ -328,22 +296,22 @@
   <div class="inbound_container">
     <div>
       <div style="background-image: url(../../assets/ColorFullMagazines.jpg);">
-        <div>
+        <div (click)="createModal('Paper_Reclaimer')">
           <h4>Paper</h4>
         </div>
       </div>
       <div style="background-image: url(../../assets/BluCapPlasticBottle.jpg);">
-        <div>
+        <div (click)="createModal('Plastic_Reclaimer')">
           <h4>Plastic</h4>
         </div>
       </div>
       <div style="background-image: url(../../assets/SquashedRedCan.jpg);">
-        <div>
+        <div (click)="createModal('Aluminium_Reclaimer')">
           <h4>Aluminium</h4>
         </div>
       </div>
       <div style="background-image: url(../../assets/WhiteWineGlass.jpg);">
-        <div>
+        <div (click)="createModal('Glass_Reclaimer')">
           <h4>Glass</h4>
         </div>
       </div>
@@ -362,33 +330,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+          <tr *ngFor="let y of reclaimerArray">
+            <th scope="row">{{y.customerID}}</th>
+            <td>{{y.fullName}}</td>
+            <td>{{y.idNumber}}</td>
+            <td>{{y.phoneNumber}}</td>
             <td>
               <ion-icon name="eye" color="success"></ion-icon>
             </td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>
-              <ion-icon name="eye" color="success"></ion-icon>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td>
-              <ion-icon name="eye" color="success"></ion-icon>
-            </td>
-          </tr>
+         
         </tbody>
       </table>
 

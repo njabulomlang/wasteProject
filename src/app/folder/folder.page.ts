@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { MenuController, ModalController, NavController, ToastController } from '@ionic/angular';
 import * as HighCharts from 'highcharts';
 import * as firebase from 'firebase';
@@ -24,6 +24,8 @@ export class FolderPage implements OnInit {
   infoAl: any[];
   fb = firebase.firestore();
   inboundArray = [];
+  outboundArray: any[];
+  reclaimerArray: any[];
   constructor(private activatedRoute: ActivatedRoute, public menuCtrl: MenuController, private navCtrl: NavController, public toastController: ToastController,
     public modalController: ModalController) {
     this.menuCtrl.enable(true);
@@ -36,21 +38,49 @@ export class FolderPage implements OnInit {
     this.getGlass();
     this.getAlum();
     this.getInbounds();
+    this.getOutbounds();
+    this.getReclaimer();
   }
   ionViewDidEnter() {
     this.plotSimpleBarChart();
     this.plotSimpleBarChart1();
     this.plotSimpleBarChart2();
   }
-   getInbounds() {
-        this.fb.collection("Inbound").onSnapshot((res1)=>{
-          this.inboundArray = [];
-          res1.forEach((doc)=>{
-            this.inboundArray.push(doc.data());
-          })
-          console.log("My inbound ", this.inboundArray);
-        })
-   }
+  getInbounds() {
+    this.fb.collection("Inbound").onSnapshot((res1) => {
+      this.inboundArray = [];
+      res1.forEach((doc) => {
+        this.inboundArray.push({id:doc.id,info:doc.data()});
+      })
+      // console.log("My inbound ", this.inboundArray);
+    })
+  }
+  viewDetail(id) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        id: id,
+      }
+    };
+    this.navCtrl.navigateForward(['detail'], navigationExtras)
+  }
+  getReclaimer() {
+    this.fb.collection("Reclaimer").onSnapshot((res1) => {
+      this.reclaimerArray = [];
+      res1.forEach((doc) => {
+        this.reclaimerArray.push(doc.data());
+      })
+      // console.log("My inbound ", this.inboundArray);
+    })
+  }
+  getOutbounds() {
+    this.fb.collection("Outbound").onSnapshot((res1) => {
+      this.outboundArray = [];
+      res1.forEach((doc) => {
+        this.outboundArray.push(doc.data());
+      })
+      // console.log("My inbound ", this.inboundArray);
+    })
+  }
   async createModal(material) {
     // console.log('My values', PAP001, PAP003, PAP005, PAP007);
 
