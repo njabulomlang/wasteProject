@@ -14,34 +14,25 @@ export class ModalPage implements OnInit {
   @Input("value") value;
   @ViewChild(IonSlides) slides: IonSlides;
   materialForm;
-  price1;
-  price3;
-  price5;
-  price7;
+  price1: number;
+  price3 : number;
+  price5 : number;
+  price7 : number;
   infoArr = [];
   updateArray = [];
   docUpdate = [];
 
-  hd001
-  ld003
-  ld001
-  pet005
-  pet001
-  pet003
+  hd001 : number;
+  ld003 : number;
+  ld001 : number;
+  pet005 : number;
+  pet001 : number;
+  pet003 : number;
   showHeader = true;
   valueC = '';
   mass;
   inputMass = [];
   myInput = [];
-
-  // obj = {
-  //   fullName:'',
-  //   phoneNumber:0,
-  //   regNo:'',
-  //   cName:'',
-  //   profilePic:null,
-  //   cAddress:''
-  // }
   fullName = new FormControl('', Validators.required);
   phoneNumber = new FormControl(null, Validators.minLength(10));
   regNo = new FormControl('', Validators.required);
@@ -51,9 +42,6 @@ export class ModalPage implements OnInit {
   idNumber = new FormControl(null, Validators.minLength(13));
   streetName = new FormControl('', Validators.required);
   town = new FormControl('', Validators.required);
-  // @Input() lastName: string;
-  // @Input() middleInitial: string;
-
   storage = firebase.storage().ref();
   progress;
   fb = firebase.firestore();
@@ -62,7 +50,6 @@ export class ModalPage implements OnInit {
   phone_number;
   reg_no;
   id_no;
-
   driverArr: any[];
   searchtxt: any;
   searchedItems: any;
@@ -71,7 +58,7 @@ export class ModalPage implements OnInit {
   reclaimerArr: any[];
   constructor(public loadingController: LoadingController, public renderer: Renderer2,
     public modalController: ModalController, public alertController: AlertController) {
-
+   
     // this.materialCollection = .;
     setTimeout(() => {
       this.renderer.setStyle(document.getElementById('pc1'), 'display', 'none');
@@ -82,7 +69,7 @@ export class ModalPage implements OnInit {
 
   ngOnInit() {
     //print 123
-    console.log(this.value);
+    // console.log(this.value);
     // this.valueC = 'Paper';
 
     setTimeout(() => {
@@ -107,7 +94,7 @@ export class ModalPage implements OnInit {
     this.getDriver();
     // console.log("My update array ",this.updateArray);
   }
-
+  
   addEventListener(ev) {
     console.log("my pic ", ev.target.files[0]);
     const upload = this.storage.child('Driver_Pictures/' + ev.target.files[0].name).put(ev.target.files[0]);
@@ -450,36 +437,7 @@ export class ModalPage implements OnInit {
     const { role, data } = await loading.onDidDismiss();
     console.log('Loading dismissed!');
   }
-  // getUpdates(id) {
-  //   this.materialCollection.collection(this.value).doc(id).collection('Updates').onSnapshot((res) => {
-  //     res.forEach((doc) => {
-  //       this.updateArray.push({ id: doc.id, doc: doc.data() });
-  //       // this.getDocUpdate(doc.id);
-  //     })
-  //     console.log("Upd arr ",this.updateArray);
-
-
-  //     setTimeout(() => {
-  //       this.getDocUpdate(id);
-  //     }, 1000);
-  //      console.log('My update array ', this.updateArray.length);
-  //   })
-  // }
-  // getDocUpdate(id) {
-  //   let price = 0;
-  //     this.updateArray.forEach((i) => {
-  //       this.docUpdate = [];
-  //       this.materialCollection.collection(this.value).doc(id).collection('Updates').doc(i.id).onSnapshot((doc) => {
-  //           console.log("My prices ", doc.data());
-  //         // .forEach(y => {
-  //         this.docUpdate.push(doc.data().paper);
-  //       })
-  //       // 
-  //       console.log("....",this.docUpdate);
-  //     })
-
-  // }
-
+  
   addPlastic() {
     // this.infoArr.forEach((el)=>{
     //   console.log("My element ", el);

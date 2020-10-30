@@ -216,7 +216,7 @@
             <td>{{y.info.driverName}}</td>
             <td>{{y.info.regNumber}}</td>
             <td>
-              <ion-icon (click)="viewDetail(y.id)" name="eye" color="success"></ion-icon>
+              <ion-icon (click)="viewDetail(y)" name="eye" color="success"></ion-icon>
             </td>
           </tr>
         </tbody>
@@ -275,7 +275,7 @@
             <td>{{y.driverName}}</td>
             <td>{{y.regNumber}}</td>
             <td>
-              <ion-icon name="eye" color="success"></ion-icon>
+              <ion-icon name="eye" (click)="viewDetail(y)" color="success"></ion-icon>
             </td>
           </tr>
         </tbody>
@@ -286,7 +286,7 @@
 </ion-content>
 
 
-<ion-content [fullscreen]="true" *ngIf="folder==='Reclaimers'">
+<ion-content [fullscreen]="true" *ngIf="folder==='Reclaimer'">
 
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -336,7 +336,7 @@
             <td>{{y.idNumber}}</td>
             <td>{{y.phoneNumber}}</td>
             <td>
-              <ion-icon name="eye" color="success"></ion-icon>
+              <ion-icon name="eye" (click)="viewDetail(y)" color="success"></ion-icon>
             </td>
           </tr>
          

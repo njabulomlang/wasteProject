@@ -30,8 +30,8 @@ export class AppComponent implements OnInit {
       image: '../assets/outboundW.svg'
     },
     {
-      title: 'Reclaimers',
-      url: '/folder/Reclaimers',
+      title: 'Reclaimer',
+      url: '/folder/Reclaimer',
       image: '../assets/reclaimerW.svg'
     },
     {

@@ -55,13 +55,38 @@ export class FolderPage implements OnInit {
       // console.log("My inbound ", this.inboundArray);
     })
   }
-  viewDetail(id) {
-    let navigationExtras: NavigationExtras = {
-      queryParams: {
-        id: id,
+  viewDetail(y) {
+    if (this.folder == "Inbound") {
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          id: y.id,
+          driverID: y.info.driverID,
+          col : this.folder
+        }
+      };
+      this.navCtrl.navigateForward(['detail'], navigationExtras)
+    } else if (this.folder == "Outbound") {
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          id: y.id,
+          driverID: y.driverID,
+          col : this.folder
+        }
+      };
+      this.navCtrl.navigateForward(['detail'], navigationExtras)
+    } else {
+      {
+        let navigationExtras: NavigationExtras = {
+          queryParams: {
+            id: y.id,
+            driverID: y.customerID,
+            col : this.folder
+          }
+        };
+        this.navCtrl.navigateForward(['detail'], navigationExtras)
       }
-    };
-    this.navCtrl.navigateForward(['detail'], navigationExtras)
+    }
+   
   }
   getReclaimer() {
     this.fb.collection("Reclaimer").onSnapshot((res1) => {
