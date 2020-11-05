@@ -46,6 +46,12 @@ export class AppComponent implements OnInit {
     }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  admin = {
+    name:'',
+    number: null,
+    address:'',
+    image:''
+  }
 
   constructor(
     private platform: Platform,
@@ -65,10 +71,19 @@ export class AppComponent implements OnInit {
       this.checkUser();
     });
   }
+  adminProfile(uid) {
+    firebase.firestore().collection('Admin').doc(uid).onSnapshot((doc)=>{
+      this.admin.name = doc.data().fullName;
+      this.admin.number = doc.data().phoneNumber;
+      this.admin.address = doc.data().Address;
+      this.admin.image = doc.data().profilePic
+    })
+  }
   checkUser() {
     firebase.auth().onAuthStateChanged((user)=>{
       if (user) {
         this.navCtrl.navigateRoot('folder/Dashboard');
+        this.adminProfile(user.uid)
       } else {
         this.navCtrl.navigateRoot('signin');
       }

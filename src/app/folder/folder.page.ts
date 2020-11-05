@@ -4,6 +4,7 @@ import { MenuController, ModalController, NavController, ToastController } from 
 import * as HighCharts from 'highcharts';
 import * as firebase from 'firebase';
 import { ModalPage } from '../modal/modal.page';
+import { EditProfilePage } from '../edit-profile/edit-profile.page';
 @Component({
   selector: 'app-folder',
   templateUrl: './folder.page.html',
@@ -26,6 +27,18 @@ export class FolderPage implements OnInit {
   inboundArray = [];
   outboundArray: any[];
   reclaimerArray: any[];
+  totalReclaimer = 0;
+  totalOutbound = 0;
+  users = [];
+  admin_id;
+  admin = {
+    name:'',
+    number: null,
+    address:'',
+    image:''
+  }
+  massArray = [];
+  nameArray = [];
   constructor(private activatedRoute: ActivatedRoute, public menuCtrl: MenuController, private navCtrl: NavController, public toastController: ToastController,
     public modalController: ModalController) {
     this.menuCtrl.enable(true);
@@ -40,6 +53,33 @@ export class FolderPage implements OnInit {
     this.getInbounds();
     this.getOutbounds();
     this.getReclaimer();
+    this.getUsers();
+    setTimeout(() => {
+      this.admin_id = firebase.auth().currentUser.uid;
+      this.adminProfile();
+    }, 0);
+  }
+  transform(rawNum) {
+  /*   rawNum = rawNum.charAt(0) != 0 ? "0" + rawNum : "" + rawNum;
+
+    let newStr = "";
+    let i = 0;
+
+    for (; i < Math.floor(rawNum.length / 2) - 1; i++) {
+      newStr = newStr + rawNum.substr(i * 2, 2) + "-";
+    }
+
+    return newStr + rawNum.substr(i * 2); */
+    
+  }
+  adminProfile() {
+    this.fb.collection('Admin').doc(this.admin_id).onSnapshot((doc)=>{
+      this.admin.name = doc.data().fullName;
+      this.admin.number = doc.data().phoneNumber;
+      this.admin.address = doc.data().Address;
+      this.admin.image = doc.data().profilePic
+    })
+    String(this.admin.number).concat(String(this.admin.number).substr(2,1),"-",String(this.admin.number).substr(3))
   }
   ionViewDidEnter() {
     this.plotSimpleBarChart();
@@ -47,13 +87,88 @@ export class FolderPage implements OnInit {
     this.plotSimpleBarChart2();
   }
   getInbounds() {
+    let arr=[]; 
     this.fb.collection("Inbound").onSnapshot((res1) => {
       this.inboundArray = [];
       res1.forEach((doc) => {
-        this.inboundArray.push({id:doc.id,info:doc.data()});
+        this.inboundArray.push({ id: doc.id, info: doc.data() });
       })
-      // console.log("My inbound ", this.inboundArray);
+      setTimeout(() => {
+        this.inboundArray.forEach((i)=>{
+        i.info.masses.forEach(y => {
+          this.massArray.push(Number(y.mass));
+          this.nameArray.push(y.name);
+        });
+      })
+      }, 0);
+      
+     console.log("Mass array ",this.massArray );
+     console.log("Name array ",this.nameArray );
     })
+  }
+  getUsers() {
+    let info = { driver: [], outDriver: [], customer: [] }
+    this.fb.collection("DriverOutbound").onSnapshot((resOut) => {
+      this.users = [];
+      info.outDriver = [];
+      resOut.forEach((doc) => {
+        info.outDriver.push({id:doc.id,data:doc.data()});
+      })
+    this.fb.collection("Driver").onSnapshot((resIn) => {
+      info.driver = []
+      resIn.forEach((doc) => {
+        info.driver.push({id:doc.id,data:doc.data()});
+      })
+    })
+    this.fb.collection("Customer").onSnapshot((cust) => {
+      info.customer=[]
+      cust.forEach((doc) => {
+        info.customer.push({id:doc.id,data:doc.data()})
+      })
+    })
+    this.users.push(info)
+    // console.log("Info ",this.users );
+  })
+    
+    
+
+  }
+  deleteInDriver(id) {
+    this.fb.collection('Driver').doc(id).delete().then(()=>{
+      this.presentToast('Inbound driver deleted')
+    })
+  }
+  deleteOutDriver(id) {
+    this.fb.collection('DriverOutbound').doc(id).delete().then(()=>{
+      this.presentToast('Outbound driver deleted')
+    })
+  }
+  deleteCustomer(id) {
+    this.fb.collection('Customer').doc(id).delete().then(()=>{
+      this.presentToast('Customer deleted')
+    })
+  }
+  editUser(id, col) {
+    this.createModalEdit(id, col);
+  }
+  async createModalEdit(id, col) {
+    // console.log('My values', PAP001, PAP003, PAP005, PAP007);
+
+    const modal = await this.modalController.create({
+      component: EditProfilePage,
+      cssClass: 'modalCss',
+      componentProps: { id: id, collection: col }
+    });
+    return await modal.present();
+  }
+  getTotal() {
+    let total = 0;
+    this.inboundArray.forEach((item) => {
+      item.info.masses.forEach(element => {
+        total += Number(element.mass)
+      });
+    })
+    return total;
   }
   viewDetail(y) {
     if (this.folder == "Inbound") {
@@ -61,7 +176,7 @@ export class FolderPage implements OnInit {
         queryParams: {
           id: y.id,
           driverID: y.info.driverID,
-          col : this.folder
+          col: this.folder
         }
       };
       this.navCtrl.navigateForward(['detail'], navigationExtras)
@@ -70,7 +185,7 @@ export class FolderPage implements OnInit {
         queryParams: {
           id: y.id,
           driverID: y.driverID,
-          col : this.folder
+          col: this.folder
         }
       };
       this.navCtrl.navigateForward(['detail'], navigationExtras)
@@ -80,28 +195,40 @@ export class FolderPage implements OnInit {
           queryParams: {
             id: y.id,
             driverID: y.customerID,
-            col : this.folder
+            col: this.folder
           }
         };
         this.navCtrl.navigateForward(['detail'], navigationExtras)
       }
     }
-   
+
   }
+
   getReclaimer() {
+    let tot = 0;
     this.fb.collection("Reclaimer").onSnapshot((res1) => {
       this.reclaimerArray = [];
       res1.forEach((doc) => {
         this.reclaimerArray.push(doc.data());
+        doc.data().masses.forEach(element => {
+          tot += Number(element.mass)
+        });
+        this.totalReclaimer = tot;
+        // console.log("my total ", tot);
       })
       // console.log("My inbound ", this.inboundArray);
     })
   }
   getOutbounds() {
+    let tot = 0;
     this.fb.collection("Outbound").onSnapshot((res1) => {
       this.outboundArray = [];
       res1.forEach((doc) => {
         this.outboundArray.push(doc.data());
+        doc.data().masses.forEach(element => {
+          tot += Number(element.mass)
+        });
+        this.totalOutbound = tot;
       })
       // console.log("My inbound ", this.inboundArray);
     })
@@ -125,7 +252,7 @@ export class FolderPage implements OnInit {
         text: 'Inbound'
       },
       xAxis: {
-        categories: ['Apples', 'Bananas', 'Oranges']
+        categories: this.nameArray
       },
       yAxis: {
         title: {
@@ -134,14 +261,9 @@ export class FolderPage implements OnInit {
       },
       series: [
         {
-          name: 'Jane',
+          name: 'Material',
           type: undefined,
-          data: [1, 0, 4]
-        },
-        {
-          name: 'John',
-          type: undefined,
-          data: [5, 7, 3]
+          data: this.massArray
         }]
     });
   }

@@ -15,19 +15,19 @@ export class ModalPage implements OnInit {
   @ViewChild(IonSlides) slides: IonSlides;
   materialForm;
   price1: number;
-  price3 : number;
-  price5 : number;
-  price7 : number;
+  price3: number;
+  price5: number;
+  price7: number;
   infoArr = [];
   updateArray = [];
   docUpdate = [];
 
-  hd001 : number;
-  ld003 : number;
-  ld001 : number;
-  pet005 : number;
-  pet001 : number;
-  pet003 : number;
+  hd001: number;
+  ld003: number;
+  ld001: number;
+  pet005: number;
+  pet001: number;
+  pet003: number;
   showHeader = true;
   valueC = '';
   mass;
@@ -58,8 +58,9 @@ export class ModalPage implements OnInit {
   reclaimerArr: any[];
   constructor(public loadingController: LoadingController, public renderer: Renderer2,
     public modalController: ModalController, public alertController: AlertController) {
-   
+
     // this.materialCollection = .;
+    
     setTimeout(() => {
       this.renderer.setStyle(document.getElementById('pc1'), 'display', 'none');
 
@@ -68,10 +69,7 @@ export class ModalPage implements OnInit {
   }
 
   ngOnInit() {
-    //print 123
-    // console.log(this.value);
-    // this.valueC = 'Paper';
-
+    this.materialClicked(this.value);
     setTimeout(() => {
       this.slides.lockSwipes(true);
       if (this.value == 'Paper_Inbound' || this.value == 'Paper_Outbound' || this.value == 'Paper_Reclaimer') {
@@ -88,13 +86,13 @@ export class ModalPage implements OnInit {
         this.getPapers('Glass')
       }
     }, 500);
-
+    
     // document.getElementById("pc1").classList.contains("hide");
     // this.getPapers();
     this.getDriver();
     // console.log("My update array ",this.updateArray);
   }
-  
+
   addEventListener(ev) {
     console.log("my pic ", ev.target.files[0]);
     const upload = this.storage.child('Driver_Pictures/' + ev.target.files[0].name).put(ev.target.files[0]);
@@ -437,7 +435,7 @@ export class ModalPage implements OnInit {
     const { role, data } = await loading.onDidDismiss();
     console.log('Loading dismissed!');
   }
-  
+
   addPlastic() {
     // this.infoArr.forEach((el)=>{
     //   console.log("My element ", el);

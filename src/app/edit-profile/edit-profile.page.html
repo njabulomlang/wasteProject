@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit {{collection}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="collection==='Customer'">
+  <img src="{{profilePic}}" width="100" height="100" alt="">
+  <ion-progress-bar value="{{progress}}"></ion-progress-bar>
+  <input type="file" id="fileUpload" (change)="addEventListener($event)">
+
+  <ion-input
+    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+    placeholder="Full name" [formControl]="fullName"></ion-input>
+  <ion-input type="tel"
+    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+    placeholder="Phone number" [formControl]="phoneNumber"></ion-input>
+
+  <ion-input type="number"
+    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+    placeholder="Identity number" [formControl]="idNumber"></ion-input>
+
+  <ion-input
+    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color:rgb(0, 0, 0);"
+    placeholder="Street Name" [formControl]="streetName"></ion-input>
+
+  <ion-input
+    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+    placeholder="Town" [formControl]="town"></ion-input>
+    <ion-button (click)="updateDetails()" >Update Details</ion-button>
+  </ion-content>
+
+  <!-- Admin -->
+  <ion-content *ngIf="collection==='Admin'">
+    <img src="{{profilePic}}" width="100" height="100" alt="">
+    <ion-progress-bar value="{{progress}}"></ion-progress-bar>
+    <input type="file" id="fileUpload" (change)="addEventListener($event)">
+  
+    <ion-input
+      style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+      placeholder="Full name" [formControl]="fullName"></ion-input>
+    <ion-input type="tel"
+      style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+      placeholder="Phone number" [formControl]="phoneNumber"></ion-input>
+  
+    <ion-input
+      style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color:rgb(0, 0, 0);"
+      placeholder="Address" [formControl]="streetName"></ion-input>
+
+      <ion-button (click)="updateDetails()" >Update Details</ion-button>
+    </ion-content>
+  
+<!-- Customer content -->
+<ion-content *ngIf="collection!='Customer' && collection!='Admin'">
+  <img src="{{profilePic}}" width="100" height="100" alt="">
+  <ion-progress-bar value="{{progress}}"></ion-progress-bar>
+  <input type="file" id="fileUpload" (change)="addEventListener($event)">
+  <ion-input
+  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+  placeholder="Full name" [formControl]="fullName"></ion-input>
+
+<ion-input
+  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+  placeholder="Phone number" [formControl]="phoneNumber"></ion-input>
+
+<ion-input
+  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+  placeholder="Registration no." [formControl]="regNo"></ion-input>
+
+<ion-input
+  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color:rgb(0, 0, 0);"
+  placeholder="Company name" [formControl]="cName"></ion-input>
+
+<ion-input
+  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
+  placeholder="Company address" [formControl]="cAddress"></ion-input>
+  <ion-button (click)="updateDetails()">Update Details</ion-button>
+</ion-content>

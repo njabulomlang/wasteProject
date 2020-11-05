@@ -18,8 +18,8 @@ export class DetailPage implements OnInit {
     fullName: '',
     id:'',
     regNo:'',
-    phoneNumber: null,
-    image:null,
+    phoneNumber: '',
+    image:'',
     cName:'',
     cAddress:''
   }
@@ -41,14 +41,17 @@ export class DetailPage implements OnInit {
   ngOnInit() {
     this.getMaterial();
     this.renderer.setStyle(document.getElementById('pdfView'),'display','none');
-    this.getDriver();
+    setTimeout(() => {
+      this.getDriver();
+    }, 1000);
+    
     // this.getTotal();
   }
   async presentLoading() {
     const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
       message: 'Please Wait...',
-      duration: 5000
+      duration: 3000
     });
     await loading.present();
 
@@ -78,7 +81,7 @@ export class DetailPage implements OnInit {
     this.renderer.setStyle(document.getElementById('pdfView'),'display','none');
     this.renderer.setStyle(document.getElementById('details'),'display','flex');
     this.doc_id = null;
-    location.reload();
+    // location.reload();
   }
 
   DownloadPDF() {
