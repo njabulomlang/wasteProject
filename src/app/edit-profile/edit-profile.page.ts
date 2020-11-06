@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 import * as firebase from 'firebase';
 
 @Component({
@@ -22,11 +23,12 @@ export class EditProfilePage implements OnInit {
   fb = firebase.firestore();
   storage = firebase.storage().ref();
   progress = 0;
-  constructor() { }
+  constructor(public modalCtrl : ModalController) { }
 
   ngOnInit() {
     // console.log("id ", this.id);
     this.getProfile();
+    
   }
   addEventListener(ev) {
     // console.log("my pic ", ev.target.files[0]);
@@ -93,13 +95,18 @@ export class EditProfilePage implements OnInit {
         phoneNumber: this.phoneNumber.value,
         idNumber: this.idNumber.value,
         streetName: this.streetName.value,
-        town: this.town.value
+        town: this.town.value,
+      }).then((res)=>{
+        this.modalCtrl.dismiss();
       })
     }else if(this.collection == 'Admin') {
       this.fb.collection(this.collection).doc(this.id).set({
         fullName: this.fullName.value,
         phoneNumber: this.phoneNumber.value,
-        Address: this.streetName.value
+        Address: this.streetName.value,
+        profilePic: this.profilePic
+      }).then((res)=>{
+        this.modalCtrl.dismiss();
       })
     } else {
       this.fb.collection(this.collection).doc(this.id).update({
@@ -108,6 +115,8 @@ export class EditProfilePage implements OnInit {
         regNo: this.regNo.value,
         companyName: this.cName.value,
         companyAddress: this.cAddress.value
+      }).then((res)=>{
+        this.modalCtrl.dismiss();
       })
     }
   }

@@ -32,13 +32,17 @@ export class FolderPage implements OnInit {
   users = [];
   admin_id;
   admin = {
-    name:'',
+    name: '',
     number: null,
-    address:'',
-    image:''
+    address: '',
+    image: ''
   }
   massArray = [];
   nameArray = [];
+  massOutArray = [];
+  nameOutArray = [];
+  massReclaimer = [];
+  nameReclaimer = [];
   constructor(private activatedRoute: ActivatedRoute, public menuCtrl: MenuController, private navCtrl: NavController, public toastController: ToastController,
     public modalController: ModalController) {
     this.menuCtrl.enable(true);
@@ -60,50 +64,47 @@ export class FolderPage implements OnInit {
     }, 0);
   }
   transform(rawNum) {
-  /*   rawNum = rawNum.charAt(0) != 0 ? "0" + rawNum : "" + rawNum;
+    /*   rawNum = rawNum.charAt(0) != 0 ? "0" + rawNum : "" + rawNum;
+  
+      let newStr = "";
+      let i = 0;
+  
+      for (; i < Math.floor(rawNum.length / 2) - 1; i++) {
+        newStr = newStr + rawNum.substr(i * 2, 2) + "-";
+      }
+  
+      return newStr + rawNum.substr(i * 2); */
 
-    let newStr = "";
-    let i = 0;
-
-    for (; i < Math.floor(rawNum.length / 2) - 1; i++) {
-      newStr = newStr + rawNum.substr(i * 2, 2) + "-";
-    }
-
-    return newStr + rawNum.substr(i * 2); */
-    
   }
   adminProfile() {
-    this.fb.collection('Admin').doc(this.admin_id).onSnapshot((doc)=>{
+    this.fb.collection('Admin').doc(this.admin_id).onSnapshot((doc) => {
       this.admin.name = doc.data().fullName;
       this.admin.number = doc.data().phoneNumber;
       this.admin.address = doc.data().Address;
       this.admin.image = doc.data().profilePic
     })
-    String(this.admin.number).concat(String(this.admin.number).substr(2,1),"-",String(this.admin.number).substr(3))
+    String(this.admin.number).concat(String(this.admin.number).substr(2, 1), "-", String(this.admin.number).substr(3))
   }
   ionViewDidEnter() {
-    this.plotSimpleBarChart();
-    this.plotSimpleBarChart1();
-    this.plotSimpleBarChart2();
+
+    // this.plotSimpleBarChart1();
   }
   getInbounds() {
-    let arr=[]; 
+    let arr = [];
     this.fb.collection("Inbound").onSnapshot((res1) => {
       this.inboundArray = [];
       res1.forEach((doc) => {
         this.inboundArray.push({ id: doc.id, info: doc.data() });
       })
       setTimeout(() => {
-        this.inboundArray.forEach((i)=>{
-        i.info.masses.forEach(y => {
-          this.massArray.push(Number(y.mass));
-          this.nameArray.push(y.name);
-        });
-      })
+        this.inboundArray.forEach((i) => {
+          i.info.masses.forEach(y => {
+            this.massArray.push(Number(y.mass));
+            this.nameArray.push(y.name);
+          });
+        })
+        this.plotSimpleBarChart();
       }, 0);
-      
-     console.log("Mass array ",this.massArray );
-     console.log("Name array ",this.nameArray );
     })
   }
   getUsers() {
@@ -112,39 +113,39 @@ export class FolderPage implements OnInit {
       this.users = [];
       info.outDriver = [];
       resOut.forEach((doc) => {
-        info.outDriver.push({id:doc.id,data:doc.data()});
+        info.outDriver.push({ id: doc.id, data: doc.data() });
       })
-    this.fb.collection("Driver").onSnapshot((resIn) => {
-      info.driver = []
-      resIn.forEach((doc) => {
-        info.driver.push({id:doc.id,data:doc.data()});
+      this.fb.collection("Driver").onSnapshot((resIn) => {
+        info.driver = []
+        resIn.forEach((doc) => {
+          info.driver.push({ id: doc.id, data: doc.data() });
+        })
       })
+      this.fb.collection("Customer").onSnapshot((cust) => {
+        info.customer = []
+        cust.forEach((doc) => {
+          info.customer.push({ id: doc.id, data: doc.data() })
+        })
+      })
+      this.users.push(info)
+      // console.log("Info ",this.users );
     })
-    this.fb.collection("Customer").onSnapshot((cust) => {
-      info.customer=[]
-      cust.forEach((doc) => {
-        info.customer.push({id:doc.id,data:doc.data()})
-      })
-    })
-    this.users.push(info)
-    // console.log("Info ",this.users );
-  })
-    
-    
+
+
 
   }
   deleteInDriver(id) {
-    this.fb.collection('Driver').doc(id).delete().then(()=>{
+    this.fb.collection('Driver').doc(id).delete().then(() => {
       this.presentToast('Inbound driver deleted')
     })
   }
   deleteOutDriver(id) {
-    this.fb.collection('DriverOutbound').doc(id).delete().then(()=>{
+    this.fb.collection('DriverOutbound').doc(id).delete().then(() => {
       this.presentToast('Outbound driver deleted')
     })
   }
   deleteCustomer(id) {
-    this.fb.collection('Customer').doc(id).delete().then(()=>{
+    this.fb.collection('Customer').doc(id).delete().then(() => {
       this.presentToast('Customer deleted')
     })
   }
@@ -216,21 +217,70 @@ export class FolderPage implements OnInit {
         this.totalReclaimer = tot;
         // console.log("my total ", tot);
       })
+      setTimeout(() => {
+        this.reclaimerArray.forEach((i) => {
+          i.masses.forEach(y => {
+            this.massReclaimer.push(Number(y.mass));
+            this.nameReclaimer.push(y.name);
+          });
+        })
+        this.sumFunction();
+        this.plotSimpleBarChart2();
+      }, 0);
       // console.log("My inbound ", this.inboundArray);
     })
   }
+  sumFunction() {
+    var source = [];
+    var mass = [];
+    var name = [];  
+    this.outboundArray.forEach((i)=>{
+    // console.log("My data ", i.masses);
+    i.masses.forEach(element => {
+      mass.push(element.mass);
+      name.push(element.name);
+    });
+  })
+  source.push({name,mass});
+  
+  var last;
+  var folded = source.reduce((prev,curr)=>{
+      if (last) {
+          if (last[0] === curr[0]) {
+              last[1] += Number(curr[1]);
+              return prev;
+          }
+      }
+      last = curr;
+      prev.push(last);
+      return prev;
+  },[]);
+  console.log("... ", folded);
+  
+  }
   getOutbounds() {
     let tot = 0;
+    let totMass = 0;
     this.fb.collection("Outbound").onSnapshot((res1) => {
       this.outboundArray = [];
       res1.forEach((doc) => {
         this.outboundArray.push(doc.data());
         doc.data().masses.forEach(element => {
-          tot += Number(element.mass)
+          tot += Number(element.mass);
         });
         this.totalOutbound = tot;
       })
-      // console.log("My inbound ", this.inboundArray);
+      setTimeout(() => {
+        this.outboundArray.forEach((i) => {
+          i.masses.forEach(y => {
+            this.massOutArray.push(Number(y.mass));
+            this.nameOutArray.push(y.name);
+          });
+        })
+        this.sumFunction();
+        this.plotSimpleBarChart1();
+      }, 0);
+      // console.log("Total papper 001 ", totMass);
     })
   }
   async createModal(material) {
@@ -252,11 +302,11 @@ export class FolderPage implements OnInit {
         text: 'Inbound'
       },
       xAxis: {
-        categories: this.nameArray
+        categories: ["PET003", "PET005", "LD001", "LD003", "HD001", "PET001", "PAP001", "PAP005", "PAP003", "PAP007", "GL001"]
       },
       yAxis: {
         title: {
-          text: 'Fruit eaten'
+          text: 'Masses(kg)'
         }
       },
       series: [
@@ -277,23 +327,18 @@ export class FolderPage implements OnInit {
         text: 'Outbound'
       },
       xAxis: {
-        categories: ['Apples', 'Bananas', 'Oranges']
+        categories: ["PET003", "PET005", "LD001", "LD003", "HD001", "PET001", "PAP001", "PAP005", "PAP003", "PAP007", "GL001"]
       },
       yAxis: {
         title: {
-          text: 'Fruit eaten'
+          text: 'Masses(kg)'
         }
       },
       series: [
         {
-          name: 'Jane',
+          name: 'Material',
           type: undefined,
-          data: [1, 0, 4]
-        },
-        {
-          name: 'John',
-          type: undefined,
-          data: [5, 7, 3]
+          data: this.massOutArray
         }]
     });
   }
@@ -320,23 +365,18 @@ export class FolderPage implements OnInit {
         text: 'Reclaimer'
       },
       xAxis: {
-        categories: ['Apples', 'Bananas', 'Oranges']
+        categories: ["PET003", "PET005", "LD001", "LD003", "HD001", "PET001", "PAP001", "PAP005", "PAP003", "PAP007", "GL001"]
       },
       yAxis: {
         title: {
-          text: 'Fruit eaten'
+          text: 'Masses(kg)'
         }
       },
       series: [
         {
-          name: 'Jane',
+          name: 'Material',
           type: undefined,
-          data: [1, 0, 4]
-        },
-        {
-          name: 'John',
-          type: undefined,
-          data: [5, 7, 3]
+          data: this.massReclaimer
         }]
     });
   }
