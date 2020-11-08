@@ -15,7 +15,7 @@
               placeholder="Email"></ion-input>
             <ion-input type="password" formControlName='password' style="background-color: white;margin: 5px; border-radius: 5px;"
               placeholder="Password"></ion-input>
-            <a href="" style="text-align: right;margin-left:52%; font-size: 12px; color: black;">Forgot Password</a>
+            <a (click)="presentAlertPrompt()" style="text-align: right;margin-left:52%; font-size: 12px; color: black;">Forgot Password</a>
             <!-- <ion-input type="text" value="123 Diepkloof, Soweto, 1816" placeholder="Name"></ion-input> -->
             <ion-button style="width: 50%;margin-left: 25%; margin-top: 10%; height: 4vh;" (click)="loginUser()"
               color="success" [disabled]="loginForm.invalid">LOGIN</ion-button>

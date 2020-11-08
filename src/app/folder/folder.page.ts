@@ -63,19 +63,7 @@ export class FolderPage implements OnInit {
       this.adminProfile();
     }, 0);
   }
-  transform(rawNum) {
-    /*   rawNum = rawNum.charAt(0) != 0 ? "0" + rawNum : "" + rawNum;
-  
-      let newStr = "";
-      let i = 0;
-  
-      for (; i < Math.floor(rawNum.length / 2) - 1; i++) {
-        newStr = newStr + rawNum.substr(i * 2, 2) + "-";
-      }
-  
-      return newStr + rawNum.substr(i * 2); */
 
-  }
   adminProfile() {
     this.fb.collection('Admin').doc(this.admin_id).onSnapshot((doc) => {
       this.admin.name = doc.data().fullName;
@@ -85,10 +73,7 @@ export class FolderPage implements OnInit {
     })
     String(this.admin.number).concat(String(this.admin.number).substr(2, 1), "-", String(this.admin.number).substr(3))
   }
-  ionViewDidEnter() {
 
-    // this.plotSimpleBarChart1();
-  }
   getInbounds() {
     let arr = [];
     this.fb.collection("Inbound").onSnapshot((res1) => {
@@ -233,30 +218,33 @@ export class FolderPage implements OnInit {
   sumFunction() {
     var source = [];
     var mass = [];
-    var name = [];  
-    this.outboundArray.forEach((i)=>{
-    // console.log("My data ", i.masses);
-    i.masses.forEach(element => {
-      mass.push(element.mass);
-      name.push(element.name);
-    });
-  })
-  source.push({name,mass});
-  
-  var last;
-  var folded = source.reduce((prev,curr)=>{
+    var name = [];
+    this.outboundArray.forEach((i) => {
+      // console.log("My data ", i.masses);
+      i.masses.forEach(element => {
+        mass.push(element.mass);
+        name.push(element.name);
+      });
+    })
+    source.push({ name, mass });
+
+    var last;
+    var folded = source.reduce((prev, curr) => {
       if (last) {
-          if (last[0] === curr[0]) {
-              last[1] += Number(curr[1]);
-              return prev;
-          }
+        if (last[0] === curr[0]) {
+          last[1] += Number(curr[1]);
+          return prev;
+        }
       }
       last = curr;
       prev.push(last);
       return prev;
-  },[]);
-  console.log("... ", folded);
-  
+    }, []);
+  }
+  dailyChart() {
+    this.outboundArray.forEach((item)=>{
+      
+    })
   }
   getOutbounds() {
     let tot = 0;

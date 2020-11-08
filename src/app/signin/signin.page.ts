@@ -37,7 +37,44 @@ export class SigninPage implements OnInit {
       this.presentAlert(error.message)
     });
   }
+  
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Enter your email',
+      inputs: [
+        {
+          name: 'name1',
+          type: 'text',
+          placeholder: 'Email'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+          }
+        }, {
+          // disabled : true,
+          text: 'Ok',
+          handler: (data) => {
+            // console.log(data.name1);
+            firebase.auth().sendPasswordResetEmail(data.name1).then((value)=>{
+              // console.log("password sent");
+              this.presentToast("Password sent");
+            }).catch((err)=>{
+              // console.error(err.message)
+              this.presentToast(err.message);
+            })
+          }
+        }
+      ]
+    });
 
+    await alert.present();
+  }
   async presentAlert(msg) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -59,7 +96,7 @@ export class SigninPage implements OnInit {
     await loading.present();
 
     const { role, data } = await loading.onDidDismiss();
-    console.log('Loading dismissed!');
+    // console.log('Loading dismissed!');
   }
   async presentToast(msg) {
     const toast = await this.toastController.create({
