@@ -69,8 +69,8 @@
       <ion-label position="floating">PAP007</ion-label>
       <ion-input [(ngModel)]="price7"></ion-input>
     </ion-item>
-
-    <ion-button color="success" (click)="addPaper()">Save</ion-button>
+    <ion-button *ngIf="changeButton" color="success" (click)="updatePaper()">Update</ion-button>
+    <ion-button *ngIf="!changeButton" color="success" (click)="addPaper()">Save</ion-button>
     <!-- </form> -->
 
   </div>
@@ -86,7 +86,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let info of infoArr;let i = index">
+      <tr *ngFor="let info of infoArray;let i = index" (click)="updateMaterial(info)">
         <th scope="row">{{info.id | date:'medium'}}</th>
         <td>
           <div *ngFor="let p of info.doc.paper">{{p.name}}<br></div>
@@ -95,7 +95,7 @@
           <div *ngFor="let p of info.doc.paper">{{p.price | currency:'R'}}<br></div>
         </td>
         <td>
-
+          <div *ngFor="let p of info.doc.paper">{{p.newPrice | currency:'R'}}<br></div>
         </td>
       </tr>
     </tbody>
@@ -135,8 +135,8 @@
       <ion-label position="floating">PET003</ion-label>
       <ion-input [(ngModel)]="pet003"></ion-input>
     </ion-item>
-
-    <ion-button color="success" (click)="addPlastic()">Save</ion-button>
+    <ion-button *ngIf="changeButton" color="success" (click)="updatePlastic()">Update</ion-button>
+    <ion-button *ngIf="!changeButton" color="success" (click)="addPlastic()">Save</ion-button>
     <!-- </form> -->
 
   </div>
@@ -152,7 +152,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let info of infoArr;let i = index">
+      <tr *ngFor="let info of infoArray;let i = index" (click)="updateMaterial1(info)">
         <th scope="row">{{info.id | date:'medium'}}</th>
         <td>
           <div *ngFor="let p of info.doc.paper">{{p.name}}<br></div>
@@ -161,12 +161,7 @@
           <div *ngFor="let p of info.doc.paper">{{p.price | currency:'R'}}<br></div>
         </td>
         <td>
-          <div *ngFor="let y of docUpdate[i]">
-            <div>{{y.price | currency:'R'}}<br></div>
-          </div>
-          <div *ngIf="docUpdate.length == 0">
-            <div>{{0 | currency:'R'}}<br></div>
-          </div>
+          <div *ngFor="let p of info.doc.paper">{{p.newPrice | currency:'R'}}<br></div>
         </td>
       </tr>
     </tbody>
@@ -188,8 +183,14 @@
       <ion-input [(ngModel)]="price"></ion-input>
     </ion-item>
 
-    <ion-button *ngIf="value==='Glass'" color="success" (click)="addGlass()">Save</ion-button>
-    <ion-button *ngIf="value==='Aluminium'" color="success" (click)="addAl()">Save</ion-button>
+    <!-- <ion-button *ngIf="value==='Glass'" color="success" (click)="addGlass()">Save</ion-button>
+    <ion-button *ngIf="value==='Aluminium'" color="success" (click)="addAl()">Save</ion-button> -->
+
+    <ion-button *ngIf="changeButton&&value==='Glass'" color="success" (click)="updateGlass()">Update</ion-button>
+    <ion-button *ngIf="!changeButton&&value==='Glass'" color="success" (click)="addGlass()">Save</ion-button>
+
+    <ion-button *ngIf="changeButton&&value==='Aluminium'" color="success" (click)="updateAl()">Update</ion-button>
+    <ion-button *ngIf="!changeButton&&value==='Aluminium'" color="success" (click)="addAl()">Save</ion-button>
     <!-- </form> -->
 
   </div>
@@ -205,7 +206,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let info of infoArr;let i = index">
+      <tr *ngFor="let info of infoArray;let i = index" (click)="updateMaterial2(info)">
         <th scope="row">{{info.id | date:'medium'}}</th>
         <td>
           <div *ngFor="let p of info.doc.paper">{{p.name}}<br></div>
@@ -214,7 +215,7 @@
           <div *ngFor="let p of info.doc.paper">{{p.price | currency:'R'}}<br></div>
         </td>
         <td>
-
+          <div *ngFor="let p of info.doc.paper">{{p.newPrice | currency:'R'}}<br></div>
         </td>
       </tr>
     </tbody>
@@ -298,9 +299,8 @@
           </ion-card-header>
 
           <ion-card-content>
-            <div style="text-align: right;" style="display: flex;flex-wrap: wrap;"
-              *ngFor="let y of infoArr;let i=index">
-              <div *ngFor="let z of y.doc.paper" style="width: 250px;">
+            <div style="text-align: right;" style="display: flex;flex-wrap: wrap;">
+              <div *ngFor="let z of infoArr" style="width: 250px;">
                 <ion-input id="material" (ionChange)="showPrice($event, z)" (ionBlur)="pushToArray()"
                   placeholder="Enter mass" style="text-align: left;"></ion-input>
                 <p for="material">{{z.name}}</p>
@@ -394,9 +394,8 @@
           </ion-card-header>
 
           <ion-card-content>
-            <div style="text-align: right;" style="display: flex;flex-wrap: wrap;"
-              *ngFor="let y of infoArr;let i=index">
-              <div *ngFor="let z of y.doc.paper; let j =index" style="width: 250px;">
+            <div style="text-align: right;" style="display: flex;flex-wrap: wrap;">
+              <div *ngFor="let z of infoArr;" style="width: 250px;">
                 <ion-input id="material" (ionChange)="showPrice($event, z)" (ionBlur)="pushToArray()"
                   placeholder="Enter mass" style="text-align: left;"></ion-input>
                 <p for="material">{{z.name}}</p>
@@ -490,9 +489,8 @@
           </ion-card-header>
 
           <ion-card-content>
-            <div style="text-align: right;" style="display: flex;flex-wrap: wrap;"
-              *ngFor="let y of infoArr;let i=index">
-              <div *ngFor="let z of y.doc.paper; let j =index" style="width: 250px;">
+            <div style="text-align: right;" style="display: flex;flex-wrap: wrap;">
+              <div *ngFor="let z of infoArr; let j =index" style="width: 250px;">
                 <ion-input id="material" (ionChange)="showPrice($event, z)" (ionBlur)="pushToArray()"
                   placeholder="Enter mass" style="text-align: left;"></ion-input>
                 <p for="material">{{z.name}}</p>

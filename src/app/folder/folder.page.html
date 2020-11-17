@@ -361,7 +361,11 @@
     </ion-toolbar>
   </ion-header>
   <div class="profile_container">
-    <div style="background-color: rgb(0, 80, 17); padding-top: 50px;">
+    <div style="height: 30vh; border-radius: 10px;margin-top: 20%;"> <img src="{{admin.image}}" style="min-width: 450px; max-height: 100%; border-radius: 10px;" alt="">
+    </div>
+    <div style="height: 7%; width: 50%; background-color:#042525 ;border-radius: 0px 0 10px 10px; text-align: center; color: white;"><h5 style="text-align: center;">{{admin.name}} | {{admin.number}} <br>{{admin.address}} </h5></div>
+    <div style="height: 6%;width: 30%; background-color:  #D12C6F;border-radius: 0px 0 10px 10px;  color: white;cursor: pointer" (click)="editUser(admin_id, 'Admin')"><h5 style="text-align: center;">Edit Profile</h5></div>
+    <!-- <div style="background-color: rgb(0, 80, 17); padding-top: 50px;">
       <div style="margin-bottom: -50px;z-index: 10000; width: 100%; align-items: center; justify-content: space-around;">
        <div>
          <ion-button (click)="editUser(admin_id, 'Admin')" fill="clear" slot="end" color="light" style="width: 60px; margin-left: 85%;">
@@ -379,7 +383,7 @@
         <h3 style="text-align: center;">{{admin.number}}</h3>
         <p style="text-align: center;">{{admin.address}}</p>
       </div>
-    </div>
+    </div> -->
   </div>
 
 </ion-content>

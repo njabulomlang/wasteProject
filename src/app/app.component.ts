@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     {
       title: 'Profile',
       url: '/folder/Profile',
-      image: '../assets/user (1).png'
+      image: '../assets/male-user.svg'
     }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];

@@ -63,7 +63,36 @@ export class FolderPage implements OnInit {
       this.adminProfile();
     }, 0);
   }
+  weeklyChart() {
+    var today = new Date();
+    var first = today.getDate() - today.getDay();
+    var firstDayWeek = new Date(today.setDate(first));
+    var lastDayWeek = new Date(today.setDate(first + 6));
+    var firstDayMonth = new Date(today.setDate(1));
+    var lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+    // addFn = addFn || Date.prototype.getDay();
+    // interval = interval || 1;
 
+    this.inboundArray = [];
+    var current = firstDayWeek;
+    this.inboundArray.forEach((item) => {
+      while (item.info.date >= current && item.info.date <= lastDayWeek) {
+        this.inboundArray.push({ info: item.info, id: item.id })
+      }
+    })
+    this.outboundArray.forEach((item) => {
+      while (item.date >= current && item.date <= lastDayWeek) {
+        this.outboundArray.push(item)
+      }
+    })
+    this.reclaimerArray.forEach((item) => {
+      while (item.date >= current && item.date <= lastDayWeek) {
+        this.reclaimerArray.push(item)
+      }
+    })
+    // return this.inboundArray;
+
+  }
   adminProfile() {
     this.fb.collection('Admin').doc(this.admin_id).onSnapshot((doc) => {
       this.admin.name = doc.data().fullName;
@@ -76,6 +105,18 @@ export class FolderPage implements OnInit {
 
   getInbounds() {
     let arr = [];
+    let pap1 = 0;
+    let pap5 = 0;
+    let pap3 = 0;
+    let pap7 = 0;
+    let pet3 = 0;
+    let pet1 = 0;
+    let pet5 = 0;
+    let hd1 = 0;
+    let ld1 = 0;
+    let ld3 = 0;
+    let gl1 = 0;
+    let nfal1 = 0;
     this.fb.collection("Inbound").onSnapshot((res1) => {
       this.inboundArray = [];
       res1.forEach((doc) => {
@@ -84,11 +125,38 @@ export class FolderPage implements OnInit {
       setTimeout(() => {
         this.inboundArray.forEach((i) => {
           i.info.masses.forEach(y => {
+            if (y.name == 'PAP001') {
+              pap1 += Number(y.mass)
+            } else if (y.name == 'PAP005') {
+              pap5 += Number(y.mass)
+            } else if (y.name == 'PAP003') {
+              pap3 += Number(y.mass)
+            } else if (y.name == 'PAP007') {
+              pap7 += Number(y.mass)
+            } else if (y.name == 'PET005') {
+              pet5 += Number(y.mass)
+            } else if (y.name == 'PET003') {
+              pet3 += Number(y.mass)
+            } else if (y.name == 'PET001') {
+              pet1 += Number(y.mass)
+            } else if (y.name == 'HD001') {
+              hd1 += Number(y.mass)
+            } else if (y.name == 'LD001') {
+              ld1 += Number(y.mass)
+            } else if (y.name == 'LD003') {
+              ld3 += Number(y.mass)
+            } else if (y.name == 'GL001') {
+              gl1 += Number(y.mass)
+            }
+            else {
+              nfal1 += Number(y.mass)
+            }
+
             this.massArray.push(Number(y.mass));
             this.nameArray.push(y.name);
           });
         })
-        this.plotSimpleBarChart();
+        this.plotSimpleBarChart(pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1);
       }, 0);
     })
   }
@@ -156,6 +224,12 @@ export class FolderPage implements OnInit {
     })
     return total;
   }
+  getSum() {
+    this.fb.collection("Inbound").onSnapshot((res) => {
+      console.log(res.size);
+
+    })
+  }
   viewDetail(y) {
     if (this.folder == "Inbound") {
       let navigationExtras: NavigationExtras = {
@@ -192,6 +266,19 @@ export class FolderPage implements OnInit {
 
   getReclaimer() {
     let tot = 0;
+    let arr = [];
+    let pap1 = 0;
+    let pap5 = 0;
+    let pap3 = 0;
+    let pap7 = 0;
+    let pet3 = 0;
+    let pet1 = 0;
+    let pet5 = 0;
+    let hd1 = 0;
+    let ld1 = 0;
+    let ld3 = 0;
+    let gl1 = 0;
+    let nfal1 = 0;
     this.fb.collection("Reclaimer").onSnapshot((res1) => {
       this.reclaimerArray = [];
       res1.forEach((doc) => {
@@ -200,19 +287,43 @@ export class FolderPage implements OnInit {
           tot += Number(element.mass)
         });
         this.totalReclaimer = tot;
-        // console.log("my total ", tot);
       })
       setTimeout(() => {
         this.reclaimerArray.forEach((i) => {
           i.masses.forEach(y => {
-            this.massReclaimer.push(Number(y.mass));
-            this.nameReclaimer.push(y.name);
+            if (y.name == 'PAP001') {
+              pap1 += Number(y.mass)
+            } else if (y.name == 'PAP005') {
+              pap5 += Number(y.mass)
+            } else if (y.name == 'PAP003') {
+              pap3 += Number(y.mass)
+            } else if (y.name == 'PAP007') {
+              pap7 += Number(y.mass)
+            } else if (y.name == 'PET005') {
+              pet5 += Number(y.mass)
+            } else if (y.name == 'PET003') {
+              pet3 += Number(y.mass)
+            } else if (y.name == 'PET001') {
+              pet1 += Number(y.mass)
+            } else if (y.name == 'HD001') {
+              hd1 += Number(y.mass)
+            } else if (y.name == 'LD001') {
+              ld1 += Number(y.mass)
+            } else if (y.name == 'LD003') {
+              ld3 += Number(y.mass)
+            } else if (y.name == 'GL001') {
+              gl1 += Number(y.mass)
+            }
+            else {
+              nfal1 += Number(y.mass)
+            }
+
+            this.massArray.push(Number(y.mass));
+            this.nameArray.push(y.name);
           });
         })
-        this.sumFunction();
-        this.plotSimpleBarChart2();
+        this.plotSimpleBarChart2(pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1);
       }, 0);
-      // console.log("My inbound ", this.inboundArray);
     })
   }
   sumFunction() {
@@ -242,13 +353,76 @@ export class FolderPage implements OnInit {
     }, []);
   }
   dailyChart() {
-    this.outboundArray.forEach((item)=>{
-      
+    var today = new Date('0:00:00');
+    var first = today.getDate() - today.getDay();
+    var firstDayWeek = new Date(today.setDate(first));
+    var lastDayWeek = new Date(today.setDate(first + 6));
+    var firstDayMonth = new Date(today.setDate(1));
+    var lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+    // addFn = addFn || Date.prototype.getDay();
+    // interval = interval || 1;
+
+    this.inboundArray = [];
+    var current = firstDayWeek;
+    this.inboundArray.forEach((item) => {
+      while (new Date(item.info.date).getHours() >= today.getHours() && item.info.date <= new Date('23:59:59').getHours()) {
+        this.inboundArray.push({ info: item.info, id: item.id })
+      }
+    })
+    this.outboundArray.forEach((item) => {
+      while (new Date(item.date).getHours() >= today.getHours() && item.date <= new Date('23:59:59').getHours()) {
+        this.outboundArray.push(item)
+      }
+    })
+    this.reclaimerArray.forEach((item) => {
+      while (new Date(item.date).getHours() >= today.getHours() && item.date <= new Date('23:59:59').getHours()) {
+        this.reclaimerArray.push(item)
+      }
+    })
+  }
+  monthlyChart() {
+    var today = new Date();
+    var first = today.getDate() - today.getDay();
+    var firstDayWeek = new Date(today.setDate(first));
+    var lastDayWeek = new Date(today.setDate(first + 6));
+    var firstDayMonth = new Date(today.setDate(1));
+    var lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+    // addFn = addFn || Date.prototype.getDay();
+    // interval = interval || 1;
+
+    this.inboundArray = [];
+    var current = firstDayWeek;
+    this.inboundArray.forEach((item) => {
+      while (new Date(new Date(item.info.date).getDate()) >= firstDayMonth && new Date(new Date(item.info.date).getDate()) <= lastDayMonth) {
+        this.inboundArray.push({ info: item.info, id: item.id })
+      }
+    })
+    this.outboundArray.forEach((item) => {
+      while (new Date(new Date(item.date).getDate()) >= firstDayMonth && new Date(new Date(item.date).getDate()) <= lastDayMonth) {
+        this.outboundArray.push(item)
+      }
+    })
+    this.reclaimerArray.forEach((item) => {
+      while (new Date(new Date(item.date).getDate()) >= firstDayMonth && new Date(new Date(item.date).getDate()) <= lastDayMonth) {
+        this.reclaimerArray.push(item)
+      }
     })
   }
   getOutbounds() {
     let tot = 0;
-    let totMass = 0;
+    let arr = [];
+    let pap1 = 0;
+    let pap5 = 0;
+    let pap3 = 0;
+    let pap7 = 0;
+    let pet3 = 0;
+    let pet1 = 0;
+    let pet5 = 0;
+    let hd1 = 0;
+    let ld1 = 0;
+    let ld3 = 0;
+    let gl1 = 0;
+    let nfal1 = 0;
     this.fb.collection("Outbound").onSnapshot((res1) => {
       this.outboundArray = [];
       res1.forEach((doc) => {
@@ -261,19 +435,43 @@ export class FolderPage implements OnInit {
       setTimeout(() => {
         this.outboundArray.forEach((i) => {
           i.masses.forEach(y => {
-            this.massOutArray.push(Number(y.mass));
-            this.nameOutArray.push(y.name);
+            if (y.name == 'PAP001') {
+              pap1 += Number(y.mass)
+            } else if (y.name == 'PAP005') {
+              pap5 += Number(y.mass)
+            } else if (y.name == 'PAP003') {
+              pap3 += Number(y.mass)
+            } else if (y.name == 'PAP007') {
+              pap7 += Number(y.mass)
+            } else if (y.name == 'PET005') {
+              pet5 += Number(y.mass)
+            } else if (y.name == 'PET003') {
+              pet3 += Number(y.mass)
+            } else if (y.name == 'PET001') {
+              pet1 += Number(y.mass)
+            } else if (y.name == 'HD001') {
+              hd1 += Number(y.mass)
+            } else if (y.name == 'LD001') {
+              ld1 += Number(y.mass)
+            } else if (y.name == 'LD003') {
+              ld3 += Number(y.mass)
+            } else if (y.name == 'GL001') {
+              gl1 += Number(y.mass)
+            }
+            else {
+              nfal1 += Number(y.mass)
+            }
+
+            this.massArray.push(Number(y.mass));
+            this.nameArray.push(y.name);
           });
+
         })
-        this.sumFunction();
-        this.plotSimpleBarChart1();
+        this.plotSimpleBarChart1(pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1);
       }, 0);
-      // console.log("Total papper 001 ", totMass);
     })
   }
   async createModal(material) {
-    // console.log('My values', PAP001, PAP003, PAP005, PAP007);
-
     const modal = await this.modalController.create({
       component: ModalPage,
       cssClass: 'modalCss',
@@ -281,7 +479,7 @@ export class FolderPage implements OnInit {
     });
     return await modal.present();
   }
-  plotSimpleBarChart() {
+  plotSimpleBarChart(pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1) {
     let myChart = HighCharts.chart('highcharts', {
       chart: {
         type: 'column'
@@ -290,7 +488,7 @@ export class FolderPage implements OnInit {
         text: 'Inbound'
       },
       xAxis: {
-        categories: ["PET003", "PET005", "LD001", "LD003", "HD001", "PET001", "PAP001", "PAP005", "PAP003", "PAP007", "GL001"]
+        categories: ["PAP001", "PAP005", "PAP003", "PAP007", "PET005", "PET003", "PET001", "HD001", "LD001", "LD003", "GL001"]
       },
       yAxis: {
         title: {
@@ -301,12 +499,12 @@ export class FolderPage implements OnInit {
         {
           name: 'Material',
           type: undefined,
-          data: this.massArray
+          data: [pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1]
         }]
     });
   }
 
-  plotSimpleBarChart1() {
+  plotSimpleBarChart1(pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1) {
     let myChart = HighCharts.chart('highcharts1', {
       chart: {
         type: 'column'
@@ -315,7 +513,7 @@ export class FolderPage implements OnInit {
         text: 'Outbound'
       },
       xAxis: {
-        categories: ["PET003", "PET005", "LD001", "LD003", "HD001", "PET001", "PAP001", "PAP005", "PAP003", "PAP007", "GL001"]
+        categories: ["PAP001", "PAP005", "PAP003", "PAP007", "PET005", "PET003", "PET001", "HD001", "LD001", "LD003", "GL001"]
       },
       yAxis: {
         title: {
@@ -326,7 +524,7 @@ export class FolderPage implements OnInit {
         {
           name: 'Material',
           type: undefined,
-          data: this.massOutArray
+          data: [pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1]
         }]
     });
   }
@@ -344,7 +542,7 @@ export class FolderPage implements OnInit {
     });
     toast.present();
   }
-  plotSimpleBarChart2() {
+  plotSimpleBarChart2(pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1) {
     let myChart = HighCharts.chart('highcharts2', {
       chart: {
         type: 'column'
@@ -353,7 +551,7 @@ export class FolderPage implements OnInit {
         text: 'Reclaimer'
       },
       xAxis: {
-        categories: ["PET003", "PET005", "LD001", "LD003", "HD001", "PET001", "PAP001", "PAP005", "PAP003", "PAP007", "GL001"]
+        categories: ["PAP001", "PAP005", "PAP003", "PAP007", "PET005", "PET003", "PET001", "HD001", "LD001", "LD003", "GL001"]
       },
       yAxis: {
         title: {
@@ -364,87 +562,31 @@ export class FolderPage implements OnInit {
         {
           name: 'Material',
           type: undefined,
-          data: this.massReclaimer
+          data: [pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1]
         }]
     });
   }
   getPlastic() {
-    this.materialCollection.collection('Plastic').onSnapshot((res) => {
-      this.infoArr = [];
-      res.forEach((data) => {
-        // this.infoArr.push({ id: data.id, doc: data.data() });
-        data.data().paper.forEach((i) => {
-          this.infoArr.push({ name: i.name, price: i.price });
-        })
-        // this.getUpdates(data.id);
-        // this.getDocUpdate(data.id);
-        //  setTimeout(() => {
-
-        //  }, 1500);
-
-
-      })
-
+    this.materialCollection.collection('Material').doc('Plastic').onSnapshot((doc) => {
+      this.infoArr = doc.data().plastic;
     })
   }
 
   getPaper() {
-    this.materialCollection.collection('Paper').onSnapshot((res) => {
-      this.infoPaper = [];
-      res.forEach((data) => {
-        // this.infoArr.push({ id: data.id, doc: data.data() });
-        data.data().paper.forEach((i) => {
-          this.infoPaper.push({ name: i.name, price: i.price });
-        })
-        // this.getUpdates(data.id);
-        // this.getDocUpdate(data.id);
-        //  setTimeout(() => {
-
-        //  }, 1500);
-
-
-      })
-
+    this.materialCollection.collection('Material').doc('Paper').onSnapshot((res) => {
+      this.infoPaper = res.data().paper;
     })
   }
 
   getGlass() {
-    this.materialCollection.collection('Glass').onSnapshot((res) => {
-      this.infoGlass = [];
-      res.forEach((data) => {
-        // this.infoArr.push({ id: data.id, doc: data.data() });
-        data.data().paper.forEach((i) => {
-          this.infoGlass.push({ name: i.name, price: i.price });
-        })
-        // this.getUpdates(data.id);
-        // this.getDocUpdate(data.id);
-        //  setTimeout(() => {
-
-        //  }, 1500);
-
-
-      })
-
+    this.materialCollection.collection('Material').doc('Glass').onSnapshot((res) => {
+      this.infoGlass = res.data().paper
     })
   }
 
   getAlum() {
-    this.materialCollection.collection('Aluminium').onSnapshot((res) => {
-      this.infoAl = [];
-      res.forEach((data) => {
-        // this.infoArr.push({ id: data.id, doc: data.data() });
-        data.data().paper.forEach((i) => {
-          this.infoAl.push({ name: i.name, price: i.price });
-        })
-        // this.getUpdates(data.id);
-        // this.getDocUpdate(data.id);
-        //  setTimeout(() => {
-
-        //  }, 1500);
-
-
-      })
-
+    this.materialCollection.collection('Material').doc('Aluminium').onSnapshot((res) => {
+      this.infoAl = res.data().paper;
     })
   }
 }

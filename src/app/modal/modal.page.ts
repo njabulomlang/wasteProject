@@ -56,43 +56,50 @@ export class ModalPage implements OnInit {
   OutArr: any[];
   pr = 234;
   reclaimerArr: any[];
+  changeButton = false;
+  info: any;
+  infoArray = [];
   constructor(public loadingController: LoadingController, public renderer: Renderer2,
     public modalController: ModalController, public alertController: AlertController) {
-
-    // this.materialCollection = .;
-    
-    setTimeout(() => {
-      this.renderer.setStyle(document.getElementById('pc1'), 'display', 'none');
-
-    }, 0);
-
+      setTimeout(() => {
+        this.renderer.setStyle(document.getElementById('pc1'), 'display', 'none');
+      }, 0);
   }
 
   ngOnInit() {
     this.materialClicked(this.value);
     setTimeout(() => {
-      this.slides.lockSwipes(true);
+       this.slides.lockSwipes(true);
       if (this.value == 'Paper_Inbound' || this.value == 'Paper_Outbound' || this.value == 'Paper_Reclaimer') {
         this.materialClicked('Paper');
         this.getPapers('Paper');
+        // this.getMaterial('Paper');
       } else if (this.value == 'Plastic_Inbound' || this.value == 'Plastic_Outbound' || this.value == 'Plastic_Reclaimer') {
         this.materialClicked('Plastic');
         this.getPapers('Plastic');
+        // this.getMaterial('Plastic');
       } else if (this.value == 'Aluminium_Inbound' || this.value == 'Aluminium_Outbound' || this.value == 'Aluminium_Reclaimer') {
         this.materialClicked('Aluminium');
         this.getPapers('Aluminium');
+        // this.getMaterial('Aluminium');
       } else {
         this.materialClicked('Glass');
         this.getPapers('Glass')
+        // this.getMaterial('Glass');
       }
-    }, 500);
-    
-    // document.getElementById("pc1").classList.contains("hide");
-    // this.getPapers();
+    }, 1000);
+   
     this.getDriver();
-    // console.log("My update array ",this.updateArray);
+     this.getMaterial(this.valueC)
   }
-
+  getMaterial(material) {
+    this.fb.collection(material).onSnapshot((res)=>{
+      this.infoArray = [];
+      res.forEach((doc)=>{
+        this.infoArray.push({id: doc.id, doc: doc.data()})
+      })
+    })
+  }
   addEventListener(ev) {
     console.log("my pic ", ev.target.files[0]);
     const upload = this.storage.child('Driver_Pictures/' + ev.target.files[0].name).put(ev.target.files[0]);
@@ -112,12 +119,18 @@ export class ModalPage implements OnInit {
   }
   materialClicked(val) {
     this.valueC = val;
-    this.materialCollection.collection(this.valueC).onSnapshot((res) => {
-      this.infoArr = [];
-      res.forEach((data) => {
-        this.infoArr.push({ id: data.id, doc: data.data() });
+    this.infoArr = [];
+    
+    if (this.valueC === 'Plastic') {
+      this.materialCollection.collection('Material').doc(this.valueC).onSnapshot((res) => {
+        this.infoArr = res.data().plastic;
       })
-    })
+    } else {
+      this.materialCollection.collection('Material').doc(this.valueC).onSnapshot((res) => {
+        this.infoArr = res.data().paper;
+      })
+    }
+    
   }
   slideNext() {
 
@@ -251,8 +264,6 @@ export class ModalPage implements OnInit {
     setTimeout(() => {
       this.myInput = [];
     }, 100);
-    // console.log("My ...", this.inputMass);
-
   }
   addInbound() {
     this.inputMass.sort().splice(this.inputMass.indexOf(undefined));
@@ -266,7 +277,6 @@ export class ModalPage implements OnInit {
       this.presentLoading();
       this.modalController.dismiss();
     })
-    //  console.log("My masses ", this.inputMass);
   }
   addOutbound() {
     this.inputMass.sort().splice(this.inputMass.indexOf(undefined));
@@ -362,30 +372,6 @@ export class ModalPage implements OnInit {
     // this.pushToArray(ev.detail.value)
   }
   addPaper() {
-    // this.infoArr.forEach((el)=>{
-    //   console.log("My element ", el);
-
-    // })
-
-    // setTimeout(() => {
-    // if (this.infoArr.length !== this.updateArray.length) {
-    //    console.log("Update ");
-
-    //   // this.materialCollection.collection(this.value).doc(this.infoArr[this.infoArr.length - 1].id).collection('Updates').doc('' + new Date().getTime()).set({
-    //   //   paper: [{ name: 'PAP001', price: this.price1 }, { name: 'PAP003', price: this.price3 }, { name: 'PAP005', price: this.price5 }, { name: 'PAP007', price: this.price7 }]
-    //   // }).then((res) => {
-    //   //   this.price1 = 0;
-    //   //   this.price3 = 0;
-    //   //   this.price5 = 0;
-    //   //   this.price7 = 0;
-    //   //   // console.log("updated");
-
-    //   //   // this.getPapers();
-    //   // })
-    // }
-    // else {
-    //   console.log("add");
-
     this.materialCollection.collection(this.value).doc('' + new Date().getTime()).set({
       paper: [{ name: 'PAP001', price: this.price1 }, { name: 'PAP003', price: this.price3 }, { name: 'PAP005', price: this.price5 }, { name: 'PAP007', price: this.price7 }]
     }).then((val) => {
@@ -393,36 +379,114 @@ export class ModalPage implements OnInit {
       this.price3 = 0;
       this.price5 = 0;
       this.price7 = 0;
-      // console.log("added");
-
-      // this.getPapers();
     })
-    // }
-    // }, 1000);
   }
-
-  getPapers(material) {
-    // this.presentLoading();
-    this.materialCollection.collection(material).onSnapshot((res) => {
-      this.infoArr = [];
-      this.updateArray = [];
-      res.forEach((data) => {
-        this.infoArr.push({ id: data.id, doc: data.data() });
-
-        // this.getUpdates(data.id);
-        // this.getDocUpdate(data.id);
-        //  setTimeout(() => {
-
-        //  }, 1500);
-
-
+  updatePaper() {
+    this.materialCollection.collection('Paper').doc('' + new Date().getTime()).set({
+      paper: [{ name: 'PAP001', price: this.info.doc.paper[0].price, newPrice: this.price1 },
+      { name: 'PAP003', price: this.info.doc.paper[1].price, newPrice: this.price3 },
+      { name: 'PAP005', price: this.info.doc.paper[2].price, newPrice: this.price5 },
+      { name: 'PAP007', price: this.info.doc.paper[3].price, newPrice: this.price7 }]
+    }).then((res)=>{
+      this.materialCollection.collection('Material').doc('Paper').set({
+        paper: [{ name: 'PAP001', price:  this.price1 },
+      { name: 'PAP003', price: this.price3 },
+      { name: 'PAP005', price: this.price5 },
+      { name: 'PAP007', price: this.price7 }]
       })
+    })
+  }
+  updatePlastic() {
+    this.materialCollection.collection('Plastic').doc('' + new Date().getTime()).set({
+      paper: [{ name: 'PET003', price: this.info.doc.paper[0].price, newPrice: this.pet003 },
+      { name: 'PET001', price: this.info.doc.paper[1].price, newPrice: this.pet001 },
+      { name: 'PET005', price: this.info.doc.paper[2].price, newPrice: this.pet005 },
+      { name: 'HD001', price: this.info.doc.paper[3].price, newPrice: this.hd001 },
+      { name: 'LD001', price: this.info.doc.paper[4].price, newPrice: this.ld001 },
+      { name: 'LD003', price: this.info.doc.paper[5].price, newPrice: this.ld003 }]
+    }).then((res)=>{
+      this.materialCollection.collection('Material').doc('Plastic').set({
+        plastic: [{ name: 'PET003', price: this.pet003 },
+        { name: 'PET001', price: this.pet001 },
+        { name: 'PET005', price: this.pet005 },
+        { name: 'HD001', price: this.hd001 },
+        { name: 'LD001', price: this.ld001 },
+        { name: 'LD003', price: this.ld003 }]
+      })
+    })
+  }
+  updateMaterial1(info) {
+    this.changeButton = true;
+    this.info = info;
+    if (info.doc.paper[0].newPrice == undefined) {
+      this.pet003 = info.doc.paper[0].price;
+      this.pet001 = info.doc.paper[1].price;
+      this.pet005 = info.doc.paper[2].price;
+      this.hd001 = info.doc.paper[3].price;
+      this.ld001 = info.doc.paper[4].price;
+      this.ld003 = info.doc.paper[5].price;
+    } else {
+      this.pet003 = info.doc.paper[0].newPrice;
+      this.pet001 = info.doc.paper[1].newPrice;
+      this.pet005 = info.doc.paper[2].newPrice;
+      this.hd001 = info.doc.paper[3].newPrice;
+      this.ld001 = info.doc.paper[4].newPrice;
+      this.ld003 = info.doc.paper[5].newPrice;
+    }
 
+  }
+  updateMaterial(info) {
+    this.changeButton = true;
+    this.info = info;
+    if (info.doc.paper[0].newPrice == undefined) {
+      this.price1 = info.doc.paper[0].price;
+      this.price3 = info.doc.paper[1].price;
+      this.price5 = info.doc.paper[2].price;
+      this.price7 = info.doc.paper[3].price;
+    } else {
+      this.price1 = info.doc.paper[0].newPrice;
+      this.price3 = info.doc.paper[1].newPrice;
+      this.price5 = info.doc.paper[2].newPrice;
+      this.price7 = info.doc.paper[3].newPrice;
+    }
+
+  }
+  updateMaterial2(info) {
+    this.changeButton = true;
+    this.info = info;
+    if (info.doc.paper[0].newPrice == undefined) {
+      this.price = info.doc.paper[0].price;
+    } else {
+      this.price = info.doc.paper[0].newPrice;
+    }
+  }
+  updateGlass() {
+    this.materialCollection.collection('Glass').doc('' + new Date().getTime()).set({
+      paper: [{ name: 'GL001', price: this.info.doc.paper[0].price, newPrice: this.price }]
+    }).then((res)=>{
+      this.materialCollection.collection('Material').doc('Glass').set({
+        paper: [{ name: 'GL001', price: this.price }]
+      })
+    })
+  }
+  updateAl() {
+    this.materialCollection.collection('Aluminium').doc('' + new Date().getTime()).set({
+      paper: [{ name: 'NFALO01', price: this.info.doc.paper[0].price, newPrice : this.price }]
+    }).then((res)=>{
+      this.materialCollection.collection('Material').doc('Aluminium').set({
+        paper: [{ name: 'NFALO01', price: this.price }]
+      })
+    })
+  }
+  getPapers(material) {
+    this.infoArr = [];
+    this.materialCollection.collection('Material').doc(material).onSnapshot((res) => {
+      this.infoArr = res.data().paper
+      console.log("info ", res.data());
     })
   }
   sortByDate() {
-    this.infoArr.reverse();
-    this.docUpdate.reverse();
+    this.infoArray.reverse();
   }
   async presentLoading() {
     const loading = await this.loadingController.create({
@@ -437,30 +501,6 @@ export class ModalPage implements OnInit {
   }
 
   addPlastic() {
-    // this.infoArr.forEach((el)=>{
-    //   console.log("My element ", el);
-
-    // })
-
-    // setTimeout(() => {
-    // if (this.infoArr.length !== this.updateArray.length) {
-    //    console.log("Update ");
-
-    //   // this.materialCollection.collection(this.value).doc(this.infoArr[this.infoArr.length - 1].id).collection('Updates').doc('' + new Date().getTime()).set({
-    //   //   paper: [{ name: 'PAP001', price: this.price1 }, { name: 'PAP003', price: this.price3 }, { name: 'PAP005', price: this.price5 }, { name: 'PAP007', price: this.price7 }]
-    //   // }).then((res) => {
-    //   //   this.price1 = 0;
-    //   //   this.price3 = 0;
-    //   //   this.price5 = 0;
-    //   //   this.price7 = 0;
-    //   //   // console.log("updated");
-
-    //   //   // this.getPapers();
-    //   // })
-    // }
-    // else {
-    //   console.log("add");
-
     this.materialCollection.collection(this.value).doc('' + new Date().getTime()).set({
       paper: [{ name: 'PET003', price: this.pet003 }, { name: 'PET001', price: this.pet001 }, { name: 'PET005', price: this.pet005 },
       { name: 'HD001', price: this.hd001 }, { name: 'LD001', price: this.ld001 }, { name: 'LD003', price: this.ld003 }]
@@ -471,89 +511,25 @@ export class ModalPage implements OnInit {
       this.hd001 = null;
       this.ld001 = null;
       this.ld003 = null;
-      // console.log("added");
-
-      // this.getPapers();
     })
-    // }
-    // }, 1000);
   }
 
   addGlass() {
-    // this.infoArr.forEach((el)=>{
-    //   console.log("My element ", el);
-
-    // })
-
-    // setTimeout(() => {
-    // if (this.infoArr.length !== this.updateArray.length) {
-    //    console.log("Update ");
-
-    //   // this.materialCollection.collection(this.value).doc(this.infoArr[this.infoArr.length - 1].id).collection('Updates').doc('' + new Date().getTime()).set({
-    //   //   paper: [{ name: 'PAP001', price: this.price1 }, { name: 'PAP003', price: this.price3 }, { name: 'PAP005', price: this.price5 }, { name: 'PAP007', price: this.price7 }]
-    //   // }).then((res) => {
-    //   //   this.price1 = 0;
-    //   //   this.price3 = 0;
-    //   //   this.price5 = 0;
-    //   //   this.price7 = 0;
-    //   //   // console.log("updated");
-
-    //   //   // this.getPapers();
-    //   // })
-    // }
-    // else {
-    //   console.log("add");
-
     this.materialCollection.collection(this.value).doc('' + new Date().getTime()).set({
       paper: [{ name: 'GL001', price: this.price }]
     }).then((val) => {
       this.price = null;
-      // console.log("added");
-
-      // this.getPapers();
     })
-    // }
-    // }, 1000);
   }
 
   addAl() {
-    // this.infoArr.forEach((el)=>{
-    //   console.log("My element ", el);
-
-    // })
-
-    // setTimeout(() => {
-    // if (this.infoArr.length !== this.updateArray.length) {
-    //    console.log("Update ");
-
-    //   // this.materialCollection.collection(this.value).doc(this.infoArr[this.infoArr.length - 1].id).collection('Updates').doc('' + new Date().getTime()).set({
-    //   //   paper: [{ name: 'PAP001', price: this.price1 }, { name: 'PAP003', price: this.price3 }, { name: 'PAP005', price: this.price5 }, { name: 'PAP007', price: this.price7 }]
-    //   // }).then((res) => {
-    //   //   this.price1 = 0;
-    //   //   this.price3 = 0;
-    //   //   this.price5 = 0;
-    //   //   this.price7 = 0;
-    //   //   // console.log("updated");
-
-    //   //   // this.getPapers();
-    //   // })
-    // }
-    // else {
-    //   console.log("add");
-
     this.materialCollection.collection(this.value).doc('' + new Date().getTime()).set({
       paper: [{ name: 'NFALO01', price: this.price }]
     }).then((val) => {
       this.price = null;
-
-      // console.log("added");
-
-      // this.getPapers();
     })
-    // }
-    // }, 1000);
   }
-
+ 
   pcsh1() {
     this.renderer.setStyle(document.getElementById('pc1'), 'display', 'flex');
     this.renderer.setStyle(document.getElementById('pc1'), 'animation-name', 'bounceInRight');
