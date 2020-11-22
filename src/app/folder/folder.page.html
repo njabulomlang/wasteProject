@@ -361,10 +361,18 @@
     </ion-toolbar>
   </ion-header>
   <div class="profile_container">
-    <div style="height: 30vh; border-radius: 10px;margin-top: 20%;"> <img src="{{admin.image}}" style="min-width: 450px; max-height: 100%; border-radius: 10px;" alt="">
+    <div style="height: 30vh; border-radius: 10px;margin-top: 20%;"> <img src="{{admin.image}}"
+        style="min-width: 450px; max-height: 100%; border-radius: 10px;" alt="">
     </div>
-    <div style="height: 7%; width: 50%; background-color:#042525 ;border-radius: 0px 0 10px 10px; text-align: center; color: white;"><h5 style="text-align: center;">{{admin.name}} | {{admin.number}} <br>{{admin.address}} </h5></div>
-    <div style="height: 6%;width: 30%; background-color:  #D12C6F;border-radius: 0px 0 10px 10px;  color: white;cursor: pointer" (click)="editUser(admin_id, 'Admin')"><h5 style="text-align: center;">Edit Profile</h5></div>
+    <div
+      style="height: 7%; width: 50%; background-color:#042525 ;border-radius: 0px 0 10px 10px; text-align: center; color: white;">
+      <h5 style="text-align: center;">{{admin.name}} | {{admin.number}} <br>{{admin.address}} </h5>
+    </div>
+    <div
+      style="height: 6%;width: 30%; background-color:  #D12C6F;border-radius: 0px 0 10px 10px;  color: white;cursor: pointer"
+      (click)="editUser(admin_id, 'Admin')">
+      <h5 style="text-align: center;">Edit Profile</h5>
+    </div>
     <!-- <div style="background-color: rgb(0, 80, 17); padding-top: 50px;">
       <div style="margin-bottom: -50px;z-index: 10000; width: 100%; align-items: center; justify-content: space-around;">
        <div>
@@ -394,8 +402,99 @@
       <ion-title size="large">{{ folder }}</ion-title>
     </ion-toolbar>
   </ion-header>
-  <!-- <div class="users_main"> -->
-  <!-- <div class="users_container"> -->
+  <ion-item>
+  <ion-label>--Select--</ion-label>
+  <ion-select cancelText="Cancel" (ionChange)="selectedIndex($event)" okText="Done">
+    <ion-select-option value="Driver">Inbound drivers</ion-select-option>
+    <ion-select-option value="Customer">Reclaimer customers</ion-select-option>
+    <ion-select-option value="DriverOutbound">Outbound drivers</ion-select-option>
+  </ion-select>
+</ion-item>
+  <div *ngIf="searchedUsers.length==0" style="display: flex; flex-direction: row;width: 100%; padding: 10px;">
+    <ion-list lines="none" style="display: flex; flex-direction: row;" *ngFor="let u of users">
+
+      <div class="card" *ngFor="let y of u.driver" style="width: 14rem; margin:10px; border-radius: 10px; background-color: #C5A60A;color: white;">
+        <img class="card-img-top" height="200px" style="max-width: 100%;" src="{{y.data.profilePic}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{y.data.fullName}}</h5>
+          <h3>{{y.data.phoneNumber}}</h3>
+          <p>{{y.data.companyName}}</p>
+          <ion-buttons style="width: 100px; margin-left: 50% ;" slot="end">
+            <ion-button fill="clear" (click)="editUser(y.id,'Driver')" color="light" style="width: 50px;">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+  
+            <ion-button fill="clear" color="danger" (click)="deleteInDriver(y.id)" style="width: 50px;">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </div>
+      </div>
+
+      <div class="card" *ngFor="let y of u.outDriver" style="width: 14rem; margin:10px; border-radius: 10px;background-color: #D12C6F;color: white;">
+        <img class="card-img-top" height="200px" style="max-width: 100%;" src="{{y.data.profilePic}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{y.data.fullName}}</h5>
+          <h3>{{y.data.phoneNumber}}</h3>
+          <p>{{y.data.companyName}}</p>
+          <ion-buttons style="margin-left: 50%;">
+            <ion-button fill="clear" color="light" (click)="editUser(y.id,'DriverOutbound')" style="width: 50px;">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+  
+            <ion-button fill="clear" color="danger" (click)="deleteOutDriver(y.id)" style="width: 50px;">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </div>
+      </div>
+
+      <div class="card" *ngFor="let y of u.customer" style="width: 14rem; margin:10px; border-radius: 10px; background-color: #13bbbb; color: white;">
+        <img class="card-img-top" height="200px" style="max-width: 100%;" src="{{y.data.profilePic}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{y.data.fullName}}</h5>
+          <h3>{{y.data.phoneNumber}}</h3>
+          <p>{{y.data.streetName}}</p>
+          <ion-buttons style="margin-left: 50%;">
+            <ion-button fill="clear" color="light" (click)="editUser(y.id,'Customer')" style="width: 50px;">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+    
+            <ion-button fill="clear" color="danger" (click)="deleteCustomer(y.id)" style="width: 50px;">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </div>
+      </div>
+    </ion-list>
+  </div>
+  <div *ngIf="searchedUsers.length>=1">
+    <ion-searchbar (keyup)='searchUsers($event)' (ionClear)="clearSearch()"></ion-searchbar>
+    <div  style="display: flex; flex-direction: row;width: 100%; padding: 10px;">
+      <ion-list lines="none" style="display: flex; flex-direction: row;">
+  
+        <div class="card" *ngFor="let y of searchedUsers" style="width: 14rem; margin:10px; border-radius: 10px; background-color: #6d6d6d;color: white;">
+          <img class="card-img-top" height="200px" style="max-width: 100%;" src="{{y.data.profilePic}}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{y.data.fullName}}</h5>
+            <h3>{{y.data.phoneNumber}}</h3>
+            <p>{{y.data.companyName}}</p>
+            <ion-buttons style="width: 100px; margin-left: 50% ;" slot="end">
+              <ion-button fill="clear" (click)="editUser(y.id, col)" color="light" style="width: 50px;">
+                <ion-icon slot="icon-only" name="create"></ion-icon>
+              </ion-button>
+    
+              <ion-button fill="clear" color="danger" (click)="deleteInDriver(y.id)" style="width: 50px;">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </div>
+        </div>
+      </ion-list>
+    </div>
+  </div>
+  
+  <!--   
   <div style="display: flex; flex-direction: row;width: 100%;">
     <ion-list lines="none" style="display: flex; flex-direction: row;" *ngFor="let u of users">
       <ion-item color="light" *ngFor="let y of u.driver">
@@ -464,12 +563,5 @@
 
   </ion-item>
     </ion-list>
-  </div>
-
-
-  <!-- </div> -->
-  <!-- <div style="background-color: blanchedalmond; width: 200px;height: 50vh;"></div> -->
-  <!-- </div> -->
-
-
+  </div> -->
 </ion-content>

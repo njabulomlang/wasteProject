@@ -43,6 +43,10 @@ export class FolderPage implements OnInit {
   nameOutArray = [];
   massReclaimer = [];
   nameReclaimer = [];
+  searchtxt: any;
+  searchedUsers = [];
+  col = '';
+  in_bgColor;
   constructor(private activatedRoute: ActivatedRoute, public menuCtrl: MenuController, private navCtrl: NavController, public toastController: ToastController,
     public modalController: ModalController) {
     this.menuCtrl.enable(true);
@@ -63,6 +67,40 @@ export class FolderPage implements OnInit {
       this.adminProfile();
     }, 0);
   }
+  clearSearch() {
+    // this.col = '';
+    this.fb.collection(this.col).onSnapshot(res => {
+      this.searchedUsers = [];
+      res.forEach((doc) => {
+        this.searchedUsers.push({ id: doc.id, data: doc.data() });
+      })
+    })
+  }
+  searchUsers(event) {
+    this.searchtxt = event.target.value;
+    if (this.searchtxt == '') {
+      this.fb.collection(this.col).onSnapshot(res => {
+        this.searchedUsers = [];
+        res.forEach((doc) => {
+          this.searchedUsers.push({ id: doc.id, data: doc.data() });
+        })
+      })
+    } else {
+      let query = event.target.value.trim();
+      // console.log("Users ", this.users[0]);
+      this.searchedUsers = this.searchedUsers.filter(item => item.data.fullName.toLowerCase().indexOf(query.toLowerCase()) >= 0)
+    }
+  }
+  selectedIndex(ev) {
+    this.col = ev.detail.value;
+    this.in_bgColor = 'C5A60A';
+    this.fb.collection(ev.detail.value).onSnapshot(res => {
+      this.searchedUsers = [];
+      res.forEach((doc) => {
+        this.searchedUsers.push({ id: doc.id, data: doc.data() });
+      })
+    })
+  }
   weeklyChart() {
     var today = new Date();
     var first = today.getDate() - today.getDay();
@@ -73,7 +111,7 @@ export class FolderPage implements OnInit {
     // addFn = addFn || Date.prototype.getDay();
     // interval = interval || 1;
 
-    this.inboundArray = [];
+    // this.inboundArray = [];
     var current = firstDayWeek;
     this.inboundArray.forEach((item) => {
       while (item.info.date >= current && item.info.date <= lastDayWeek) {
@@ -362,7 +400,7 @@ export class FolderPage implements OnInit {
     // addFn = addFn || Date.prototype.getDay();
     // interval = interval || 1;
 
-    this.inboundArray = [];
+    // this.inboundArray = [];
     var current = firstDayWeek;
     this.inboundArray.forEach((item) => {
       while (new Date(item.info.date).getHours() >= today.getHours() && item.info.date <= new Date('23:59:59').getHours()) {
@@ -390,7 +428,7 @@ export class FolderPage implements OnInit {
     // addFn = addFn || Date.prototype.getDay();
     // interval = interval || 1;
 
-    this.inboundArray = [];
+    // this.inboundArray = [];
     var current = firstDayWeek;
     this.inboundArray.forEach((item) => {
       while (new Date(new Date(item.info.date).getDate()) >= firstDayMonth && new Date(new Date(item.info.date).getDate()) <= lastDayMonth) {

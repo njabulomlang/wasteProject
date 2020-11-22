@@ -1,81 +1,137 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Edit {{collection}}</ion-title>
+    <ion-title>Profile Settings</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="collection==='Customer'">
-  <img src="{{profilePic}}" width="100" height="100" alt="">
-  <ion-progress-bar value="{{progress}}"></ion-progress-bar>
-  <input type="file" id="fileUpload" (change)="addEventListener($event)">
-
-  <ion-input
-    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-    placeholder="Full name" [formControl]="fullName"></ion-input>
-  <ion-input type="tel"
-    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-    placeholder="Phone number" [formControl]="phoneNumber"></ion-input>
-
-  <ion-input type="number"
-    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-    placeholder="Identity number" [formControl]="idNumber"></ion-input>
-
-  <ion-input
-    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color:rgb(0, 0, 0);"
-    placeholder="Street Name" [formControl]="streetName"></ion-input>
-
-  <ion-input
-    style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-    placeholder="Town" [formControl]="town"></ion-input>
-    <ion-button (click)="updateDetails()" >Update Details</ion-button>
-  </ion-content>
-
-  <!-- Admin -->
-  <ion-content *ngIf="collection==='Admin'">
-    <div style="display: flex;justify-content: center;margin: auto; width: 60%; flex-direction: column;">
-      <img style="margin-left: 20%; border-radius: 20px;" src="{{profilePic}}" width="200" height="200" alt="">
-      <ion-progress-bar value="{{progress}}"></ion-progress-bar>
-      <input type="file" id="fileUpload" (change)="addEventListener($event)">
-    
-      <ion-input
-        style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507);color: rgb(0, 0, 0);"
-        placeholder="Full name" [formControl]="fullName"></ion-input>
-      <ion-input type="tel"
-        style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507);color: rgb(0, 0, 0);"
-        placeholder="Phone number" [formControl]="phoneNumber"></ion-input>
-    
-      <ion-input
-        style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507);color:rgb(0, 0, 0);"
-        placeholder="Address" [formControl]="streetName"></ion-input>
-  
-        <ion-button (click)="updateDetails()" [disabled]="fullName.invalid || phoneNumber.invalid || streetName.invalid || profilePic == ''">Update Details</ion-button>
+  <div style="margin-top: -17%;">
+    <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="300" height="300"
+            src="{{profilePic}}">
+            <ion-progress-bar *ngIf="progress<100 && progress>1" value="{{progress}}"></ion-progress-bar>
+            <!-- <input type="file" id="fileUpload" (change)="addEventListener($event)"> -->
+            <div class="form-group">
+              <label for="exampleFormControlFile1">Change picture</label>
+              <input type="file" class="form-control-file" id="fileUpload" (change)="addEventListener($event)">
+            </div>          
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">Personal Information</h4>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12"><label class="labels">Full Name</label><input type="text" class="form-control" [formControl]="fullName"
+                placeholder="Full name"></div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="form-control" [formControl]="phoneNumber"
+                placeholder="enter phone number" ></div>
+            <div class="col-md-12"><label class="labels">Identity number</label><input type="text" class="form-control" [formControl]="idNumber"
+                placeholder="Enter RSA identity number"><label class="labels">Street Name</label></div>
+            <div class="col-md-12"><label class="labels"></label><input type="text" class="form-control" [formControl]="streetName"
+                placeholder="Enter street name"></div>
+            <div class="col-md-12"><label class="labels">Town <Address></Address></label><input type="text" class="form-control" [formControl]="town"
+                placeholder="Enter your town"></div>
+          </div>
+          <div class="mt-5 text-center"><button class="btn btn-primary profile-button" (click)="updateDetails()" type="button">Save</button></div>
+        </div>
+      </div>
     </div>
-  
-    </ion-content>
-  
+  </div>
+</div>
+</ion-content>
+
+<!-- Admin -->
+<ion-content *ngIf="collection==='Admin'">
+
+  <div style="margin-top: -17%;">
+    <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="300" height="300"
+            src="{{profilePic}}">
+            <ion-progress-bar *ngIf="progress<100 && progress>1" value="{{progress}}"></ion-progress-bar>
+            <!-- <input type="file" id="fileUpload" (change)="addEventListener($event)"> -->
+            <div class="form-group">
+              <label for="exampleFormControlFile1">Change picture</label>
+              <input type="file" class="form-control-file" id="fileUpload" (change)="addEventListener($event)">
+            </div>          
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">Personal Information</h4>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12"><label class="labels">Full Name</label><input type="text" class="form-control" [formControl]="fullName"
+                placeholder="Full name"></div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" value="{{email}}" disabled
+                placeholder="Full name"></div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="form-control" [formControl]="phoneNumber"
+                placeholder="enter phone number" ></div>
+            <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" [formControl]="streetName"
+                placeholder="Enter street name"></div>
+          </div>
+          <div class="mt-5 text-center"><button class="btn btn-primary profile-button" (click)="updateDetails()" type="button">Save</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</ion-content>
+
 <!-- Customer content -->
 <ion-content *ngIf="collection!='Customer' && collection!='Admin'">
-  <img src="{{profilePic}}" width="100" height="100" alt="">
-  <ion-progress-bar value="{{progress}}"></ion-progress-bar>
-  <input type="file" id="fileUpload" (change)="addEventListener($event)">
-  <ion-input
-  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-  placeholder="Full name" [formControl]="fullName"></ion-input>
+  <div style="margin-top: -17%;">
+      <div class="container rounded bg-white mt-5 mb-5">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="300" height="300"
+              src="{{profilePic}}">
+              <ion-progress-bar *ngIf="progress<100 && progress>1" value="{{progress}}"></ion-progress-bar>
+              <!-- <input type="file" id="fileUpload" (change)="addEventListener($event)"> -->
+              <div class="form-group">
+                <label for="exampleFormControlFile1">Change picture</label>
+                <input type="file" class="form-control-file" id="fileUpload" (change)="addEventListener($event)">
+              </div>          
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="p-3 py-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4 class="text-right">Personal Information</h4>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12"><label class="labels">Full Name</label><input type="text" class="form-control" [formControl]="fullName"
+                  placeholder="Full name"></div>
+            </div>
+           
+            <div class="row mt-3">
+              <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="form-control" [formControl]="phoneNumber"
+                  placeholder="enter phone number" ></div>
+              <div class="col-md-12"><label class="labels">Vehicle Registration</label><input type="text" class="form-control" [formControl]="regNo"
+                  placeholder="Enter registration number"></div>
+              <div class="col-md-12"><label class="labels">Company Name</label><input type="text" class="form-control" [formControl]="cName"
+                  placeholder="Enter company name"></div>
+              <div class="col-md-12"><label class="labels">Company <Address></Address></label><input type="text" class="form-control" [formControl]="cAddress"
+                  placeholder="Enter company address"></div>
+            </div>
+            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" (click)="updateDetails()" type="button">Save</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<ion-input
-  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-  placeholder="Phone number" [formControl]="phoneNumber"></ion-input>
 
-<ion-input
-  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-  placeholder="Registration no." [formControl]="regNo"></ion-input>
-
-<ion-input
-  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color:rgb(0, 0, 0);"
-  placeholder="Company name" [formControl]="cName"></ion-input>
-
-<ion-input
-  style="margin: 5px; border-radius: 5px; background-color: rgba(169, 169, 169, 0.507); width: 200px;color: rgb(0, 0, 0);"
-  placeholder="Company address" [formControl]="cAddress"></ion-input>
-  <ion-button (click)="updateDetails()">Update Details</ion-button>
 </ion-content>
