@@ -5,6 +5,7 @@ import * as HighCharts from 'highcharts';
 import * as firebase from 'firebase';
 import { ModalPage } from '../modal/modal.page';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
+
 @Component({
   selector: 'app-folder',
   templateUrl: './folder.page.html',
@@ -14,6 +15,7 @@ export class FolderPage implements OnInit {
   public folder: string;
   materialCollection = firebase.firestore();
   price = 3;
+  page = 4;
   infoArr = [];
   recycleType: { totalMass: number, name: string, bgcolor: string }[] = [
     { "totalMass": 0, "name": "Outbound", "bgcolor": "#C5A60A" },
@@ -47,6 +49,7 @@ export class FolderPage implements OnInit {
   searchedUsers = [];
   col = '';
   in_bgColor;
+  page_numbering = [];
   constructor(private activatedRoute: ActivatedRoute, public menuCtrl: MenuController, private navCtrl: NavController, public toastController: ToastController,
     public modalController: ModalController) {
     this.menuCtrl.enable(true);
@@ -160,6 +163,10 @@ export class FolderPage implements OnInit {
       res1.forEach((doc) => {
         this.inboundArray.push({ id: doc.id, info: doc.data() });
       })
+      for (let i = 0; i < this.inboundArray.length; i++) {
+        let num = i+1;
+        this.page_numbering.push(num);
+      }
       setTimeout(() => {
         this.inboundArray.forEach((i) => {
           i.info.masses.forEach(y => {

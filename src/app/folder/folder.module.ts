@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { FolderPageRoutingModule } from './folder-routing.module';
 
+// import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { FolderPage } from './folder.page';
 
 @NgModule({
@@ -13,8 +15,9 @@ import { FolderPage } from './folder.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    FolderPageRoutingModule
+    // NgbPaginationModule,
+    FolderPageRoutingModule,
   ],
-  declarations: [FolderPage]
+    declarations: [FolderPage]
 })
 export class FolderPageModule {}

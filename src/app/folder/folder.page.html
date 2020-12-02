@@ -25,14 +25,14 @@
 
       <div style="background: #C5A60A;">
         <div>
-          <img src="../../assets/inboundW.svg" alt="">
+          <img style="margin-top: 5%;" src="../../assets/inboundW.svg" width="80" height="100" alt="">
           <div>
             <div>
               <h3>Inbound</h3>
             </div>
 
             <div style="display: flex;">
-              <h2>{{getTotal()}}</h2>
+              <h2 style="padding-left: 3%;">{{getTotal()}}</h2>
               <p style="align-self: baseline;"><span>kg</span></p>
             </div>
 
@@ -41,14 +41,14 @@
       </div>
       <div style="background: #D12C6F;">
         <div>
-          <img src="../../assets/outboundW.svg" alt="">
+          <img style="margin-top: 5%;" src="../../assets/outboundW.svg" width="80" height="100" alt="">
           <div>
             <div>
               <h3>Outbound</h3>
             </div>
 
             <div style="display: flex;">
-              <h2>{{totalOutbound}}</h2>
+              <h2 style="padding-left: 3%;">{{totalOutbound}}</h2>
               <p style="align-self: baseline;"><span>kg</span></p>
             </div>
 
@@ -57,13 +57,13 @@
       </div>
       <div style="background: #13BBBB;">
         <div>
-          <img style="margin-top: 3%;" src="../../assets/reclaimerW.svg" alt="">
+          <img style="margin-top: 12%;" src="../../assets/reclaimerW.svg" width="80" height="60" alt="">
           <div>
             <div>
               <h3>Reclaimer</h3>
             </div>
             <div style="display: flex;">
-              <h2>{{totalReclaimer}}</h2>
+              <h2 style="padding-left: 5%;">{{totalReclaimer}}</h2>
               <p style="align-self: baseline;"><span>kg</span></p>
             </div>
           </div>
@@ -223,8 +223,27 @@
           </tr>
         </tbody>
       </table>
-
     </div>
+    <div class="d-flex justify-content-between p-2">
+      <p>Default pagination:</p>
+      <ngb-pagination [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
+      
+      <p>No direction links:</p>
+      <ngb-pagination [collectionSize]="70" [(page)]="page" [directionLinks]="false"></ngb-pagination>
+      
+      <p>With boundary links:</p>
+      <ngb-pagination [collectionSize]="70" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
+      
+      <hr>
+      
+      <pre>Current page: {{page}}</pre>
+   
+       <!-- <select class="custom-select" style="width: auto" name="pageSize">
+         <option [ngValue]="2">2 items per page</option>
+         <option [ngValue]="4">4 items per page</option>
+         <option [ngValue]="6">6 items per page</option>
+       </select> -->
+     </div>
   </div>
 
 </ion-content>
@@ -403,7 +422,7 @@
     </ion-toolbar>
   </ion-header>
   <ion-item>
-  <ion-label>--Select--</ion-label>
+  <ion-label>Select type</ion-label>
   <ion-select cancelText="Cancel" (ionChange)="selectedIndex($event)" okText="Done">
     <ion-select-option value="Driver">Inbound drivers</ion-select-option>
     <ion-select-option value="Customer">Reclaimer customers</ion-select-option>
