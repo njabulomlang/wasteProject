@@ -5,11 +5,11 @@
 </ion-header>
 
 <ion-content *ngIf="collection==='Customer'">
-  <div style="margin-top: -17%;">
+  <div style="margin-top: -10%;">
     <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
       <div class="col-md-5">
-        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="300" height="300"
+        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="300" height="200"
             src="{{profilePic}}">
             <ion-progress-bar *ngIf="progress<100 && progress>1" value="{{progress}}"></ion-progress-bar>
             <!-- <input type="file" id="fileUpload" (change)="addEventListener($event)"> -->
@@ -49,12 +49,17 @@
 <!-- Admin -->
 <ion-content *ngIf="collection==='Admin'">
 
-  <div style="margin-top: -17%;">
+  <div style="margin-top: -10%;">
     <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
       <div class="col-md-5">
-        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="300" height="300"
-            src="{{profilePic}}">
+        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+
+            <img class="rounded-circle mt-5" *ngIf="profilePic" width="300" height="200"
+              src="{{profilePic}}">
+
+              <img class="rounded-circle mt-5" *ngIf="!profilePic" width="300" height="200"
+              src="../../assets/user (1).png">
             <ion-progress-bar *ngIf="progress<100 && progress>1" value="{{progress}}"></ion-progress-bar>
             <!-- <input type="file" id="fileUpload" (change)="addEventListener($event)"> -->
             <div class="form-group">
@@ -74,7 +79,7 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" value="{{email}}" disabled
-                placeholder="Full name"></div>
+                placeholder="Email"></div>
           </div>
           <div class="row mt-3">
             <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="form-control" [formControl]="phoneNumber"
@@ -96,8 +101,9 @@
       <div class="container rounded bg-white mt-5 mb-5">
       <div class="row">
         <div class="col-md-5">
-          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="300" height="300"
-              src="{{profilePic}}">
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+            <img class="rounded-circle mt-5" width="300" height="200"
+            src="{{profilePic}}">
               <ion-progress-bar *ngIf="progress<100 && progress>1" value="{{progress}}"></ion-progress-bar>
               <!-- <input type="file" id="fileUpload" (change)="addEventListener($event)"> -->
               <div class="form-group">

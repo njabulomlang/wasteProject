@@ -36,9 +36,9 @@
         </div>
         <div style="margin: 10px; border-left: rgb(197, 197, 197) 2px solid;">
           <h2 style="font-weight: bold; font-size: 18px; margin-left: 5px;">{{driver.fullName}}</h2>
-          <h4 style="font-size: 12px; line-height: 0px; margin-left: 5px;">{{driver.id}}</h4>
-          <h4 style="font-size: 15px; line-height: 0px; margin-left: 5px;">{{driver.regNo}}</h4>
-          <h4 style="font-size: 15px; line-height: 0px; margin-left: 5px;">{{driver.phoneNumber}}</h4>
+          <h4 style="font-size: 12px; line-height: 12px; margin-left: 5px;">{{driver.id}}</h4>
+          <h4 style="font-size: 15px; line-height: 12px; margin-left: 5px;">{{driver.regNo}}</h4>
+          <h4 style="font-size: 15px; line-height: 12px; margin-left: 5px;">{{driver.phoneNumber}}</h4>
           <!-- <ion-button style="height: 2.5vh; width: 30; font-size: 10px; margin-left: 5px;">Update</ion-button> -->
 
         </div>
@@ -48,7 +48,7 @@
 
         <ion-card style="width: 200px;" *ngFor="let y of material">
           <ion-card-content>
-            <p style="font-size: 12px;">Ref No: <span style="font-size: 10px;">{{y.id}}</span> </p>
+            <p style="font-size: 12px;">Ref No: <span style="font-size: 10px;"><br>{{y.id}}</span> </p>
           </ion-card-content>
           <ion-card-footer
             style="display: flex;align-items: center; justify-content: space-between;height: 3.5vh;margin: 0px 5px 0 5px">

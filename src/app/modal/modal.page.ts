@@ -34,7 +34,7 @@ export class ModalPage implements OnInit {
   inputMass = [];
   myInput = [];
   fullName = new FormControl('', Validators.required);
-  phoneNumber = new FormControl(null, Validators.minLength(10));
+  phoneNumber = new FormControl(null, (Validators.minLength(10), Validators.maxLength(10)));
   regNo = new FormControl('', Validators.required);
   cName = new FormControl('', Validators.required);
   profilePic = new FormControl(null, Validators.required);

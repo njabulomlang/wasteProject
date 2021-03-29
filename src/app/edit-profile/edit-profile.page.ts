@@ -29,7 +29,7 @@ export class EditProfilePage implements OnInit {
   ngOnInit() {
     // console.log("id ", this.id);
     this.getProfile();
-    
+    this.email = firebase.auth().currentUser.email;
   }
   addEventListener(ev) {
     // console.log("my pic ", ev.target.files[0]);
@@ -76,7 +76,6 @@ export class EditProfilePage implements OnInit {
         this.phoneNumber.setValue(doc.data().phoneNumber);
         this.streetName.setValue(doc.data().Address);
         this.profilePic = doc.data().profilePic;
-        this.email = firebase.auth().currentUser.email;
       })
     } else {
       this.fb.collection(this.collection).doc(this.id).onSnapshot((doc) => {

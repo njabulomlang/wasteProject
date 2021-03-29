@@ -50,6 +50,7 @@ export class FolderPage implements OnInit {
   col = '';
   in_bgColor;
   page_numbering = [];
+  profilePic: any;
   constructor(private activatedRoute: ActivatedRoute, public menuCtrl: MenuController, private navCtrl: NavController, public toastController: ToastController,
     public modalController: ModalController) {
     this.menuCtrl.enable(true);
@@ -113,9 +114,169 @@ export class FolderPage implements OnInit {
     var lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
     // addFn = addFn || Date.prototype.getDay();
     // interval = interval || 1;
+   console.log("first day ", lastDayWeek.getDay());
+   if(lastDayWeek.getDay()!<firstDayWeek.getDay() && firstDayWeek.getDay() !> today.getDay()) {
+    let pap1 = 0;
+    let pap5 = 0;
+    let pap3 = 0;
+    let pap7 = 0;
+    let pet3 = 0;
+    let pet1 = 0;
+    let pet5 = 0;
+    let hd1 = 0;
+    let ld1 = 0;
+    let ld3 = 0;
+    let gl1 = 0;
+    let nfal1 = 0;
 
+    let pap11 = 0;
+    let pap51 = 0;
+    let pap31 = 0;
+    let pap71 = 0;
+    let pet31 = 0;
+    let pet11 = 0;
+    let pet51 = 0;
+    let hd11 = 0;
+    let ld11 = 0;
+    let ld31 = 0;
+    let gl11 = 0;
+    let nfal11= 0;
+
+    let pap12 = 0;
+    let pap52 = 0;
+    let pap32 = 0;
+    let pap72 = 0;
+    let pet32 = 0;
+    let pet12 = 0;
+    let pet52 = 0;
+    let hd12 = 0;
+    let ld12 = 0;
+    let ld32 = 0;
+    let gl12 = 0;
+    // console.log("Today date ", today.getDay());
+    
+    this.inboundArray.forEach((item) => {
+      if(lastDayWeek.getDay()!<firstDayWeek.getDay() && firstDayWeek.getDay() !> today.getDay()) {
+        this.inboundArray.splice(this.inboundArray.indexOf(lastDayWeek.getDay()!<firstDayWeek.getDay() && firstDayWeek.getDay() !> today.getDay()));
+        item.info.masses.forEach(y => {
+          if (y.name == 'PAP001') {
+            pap1 += Number(y.mass)
+          } else if (y.name == 'PAP005') {
+            pap5 += Number(y.mass)
+          } else if (y.name == 'PAP003') {
+            pap3 += Number(y.mass)
+          } else if (y.name == 'PAP007') {
+            pap7 += Number(y.mass)
+          } else if (y.name == 'PET005') {
+            pet5 += Number(y.mass)
+          } else if (y.name == 'PET003') {
+            pet3 += Number(y.mass)
+          } else if (y.name == 'PET001') {
+            pet1 += Number(y.mass)
+          } else if (y.name == 'HD001') {
+            hd1 += Number(y.mass)
+          } else if (y.name == 'LD001') {
+            ld1 += Number(y.mass)
+          } else if (y.name == 'LD003') {
+            ld3 += Number(y.mass)
+          } else if (y.name == 'GL001') {
+            gl1 += Number(y.mass)
+          }
+          else {
+            nfal1 += Number(y.mass)
+          }
+
+          this.massArray.push(Number(y.mass));
+          this.nameArray.push(y.name);
+        });
+      }
+    })
+    this.plotSimpleBarChart(pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1);
+    
+    this.outboundArray.forEach((item) => {
+      if(new Date(item.date).getDay() !== today.getDay()) {
+        this.outboundArray.splice(this.outboundArray.indexOf(new Date(item.date).getDay() !== today.getDay()));
+        item.masses.forEach(y => {
+          if (y.name == 'PAP001') {
+            pap11 += Number(y.mass)
+          } else if (y.name == 'PAP005') {
+            pap51 += Number(y.mass)
+          } else if (y.name == 'PAP003') {
+            pap31 += Number(y.mass)
+          } else if (y.name == 'PAP007') {
+            pap71 += Number(y.mass)
+          } else if (y.name == 'PET005') {
+            pet51 += Number(y.mass)
+          } else if (y.name == 'PET003') {
+            pet31 += Number(y.mass)
+          } else if (y.name == 'PET001') {
+            pet11 += Number(y.mass)
+          } else if (y.name == 'HD001') {
+            hd11 += Number(y.mass)
+          } else if (y.name == 'LD001') {
+            ld11 += Number(y.mass)
+          } else if (y.name == 'LD003') {
+            ld31 += Number(y.mass)
+          } else if (y.name == 'GL001') {
+            gl11 += Number(y.mass)
+          }
+          else {
+            nfal11 += Number(y.mass)
+          }
+  
+          this.massArray.push(Number(y.mass));
+          this.nameArray.push(y.name);
+        });
+      } else {
+        console.log(false);
+      }
+    })
+    this.plotSimpleBarChart1(pap11, pap51, pap31, pap71, pet51, pet31, pet11, hd11, ld11, ld31, gl11);
+
+    // this.reclaimerArray.forEach((item) => {
+      this.reclaimerArray.forEach((item) => {
+        if(lastDayWeek.getDay()!<firstDayWeek.getDay() && firstDayWeek.getDay() !> today.getDay()) {
+          this.reclaimerArray.splice(this.reclaimerArray.indexOf(lastDayWeek.getDay()!<firstDayWeek.getDay() && firstDayWeek.getDay() !> today.getDay()));
+          item.masses.forEach(y => {
+            if (y.name == 'PAP001') {
+              pap12 += Number(y.mass)
+            } else if (y.name == 'PAP005') {
+              pap52 += Number(y.mass)
+            } else if (y.name == 'PAP003') {
+              pap32 += Number(y.mass)
+            } else if (y.name == 'PAP007') {
+              pap72 += Number(y.mass)
+            } else if (y.name == 'PET005') {
+              pet52 += Number(y.mass)
+            } else if (y.name == 'PET003') {
+              pet32 += Number(y.mass)
+            } else if (y.name == 'PET001') {
+              pet12 += Number(y.mass)
+            } else if (y.name == 'HD001') {
+              hd12 += Number(y.mass)
+            } else if (y.name == 'LD001') {
+              ld12 += Number(y.mass)
+            } else if (y.name == 'LD003') {
+              ld32 += Number(y.mass)
+            } else if (y.name == 'GL001') {
+              gl12 += Number(y.mass)
+            }
+            /* else {
+              nfal12 += Number(y.mass)
+            } */
+    
+            this.massArray.push(Number(y.mass));
+            this.nameArray.push(y.name);
+          });
+        } else {
+          console.log(false);
+        }
+      })
+      this.plotSimpleBarChart2(pap12, pap52, pap32, pap72, pet52, pet32, pet12, hd12, ld12, ld32, gl12);
+  
+   }
     // this.inboundArray = [];
-    var current = firstDayWeek;
+   /*  var current = firstDayWeek;
     this.inboundArray.forEach((item) => {
       while (item.info.date >= current && item.info.date <= lastDayWeek) {
         this.inboundArray.push({ info: item.info, id: item.id })
@@ -130,16 +291,22 @@ export class FolderPage implements OnInit {
       while (item.date >= current && item.date <= lastDayWeek) {
         this.reclaimerArray.push(item)
       }
-    })
+    }) */
     // return this.inboundArray;
 
   }
   adminProfile() {
     this.fb.collection('Admin').doc(this.admin_id).onSnapshot((doc) => {
-      this.admin.name = doc.data().fullName;
-      this.admin.number = doc.data().phoneNumber;
-      this.admin.address = doc.data().Address;
-      this.admin.image = doc.data().profilePic
+      if (doc.exists) {
+        this.admin.name = doc.data().fullName;
+        this.admin.number = doc.data().phoneNumber;
+        this.admin.address = doc.data().Address;
+        this.admin.image = doc.data().profilePic;
+        this.profilePic = doc.data().profilePic;
+      } else {
+        this.editUser(this.admin_id, 'Admin')
+      }
+
     })
     String(this.admin.number).concat(String(this.admin.number).substr(2, 1), "-", String(this.admin.number).substr(3))
   }
@@ -164,7 +331,7 @@ export class FolderPage implements OnInit {
         this.inboundArray.push({ id: doc.id, info: doc.data() });
       })
       for (let i = 0; i < this.inboundArray.length; i++) {
-        let num = i+1;
+        let num = i + 1;
         this.page_numbering.push(num);
       }
       setTimeout(() => {
@@ -398,17 +565,176 @@ export class FolderPage implements OnInit {
     }, []);
   }
   dailyChart() {
-    var today = new Date('0:00:00');
+    var today = new Date();
     var first = today.getDate() - today.getDay();
     var firstDayWeek = new Date(today.setDate(first));
     var lastDayWeek = new Date(today.setDate(first + 6));
     var firstDayMonth = new Date(today.setDate(1));
     var lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+    let pap1 = 0;
+    let pap5 = 0;
+    let pap3 = 0;
+    let pap7 = 0;
+    let pet3 = 0;
+    let pet1 = 0;
+    let pet5 = 0;
+    let hd1 = 0;
+    let ld1 = 0;
+    let ld3 = 0;
+    let gl1 = 0;
+    let nfal1 = 0;
+
+    let pap11 = 0;
+    let pap51 = 0;
+    let pap31 = 0;
+    let pap71 = 0;
+    let pet31 = 0;
+    let pet11 = 0;
+    let pet51 = 0;
+    let hd11 = 0;
+    let ld11 = 0;
+    let ld31 = 0;
+    let gl11 = 0;
+    let nfal11= 0;
+
+    let pap12 = 0;
+    let pap52 = 0;
+    let pap32 = 0;
+    let pap72 = 0;
+    let pet32 = 0;
+    let pet12 = 0;
+    let pet52 = 0;
+    let hd12 = 0;
+    let ld12 = 0;
+    let ld32 = 0;
+    let gl12 = 0;
+    // console.log("Today date ", today.getDay());
+    
+    this.inboundArray.forEach((item) => {
+      if(new Date(item.info.date).getDay() !== today.getDay()) {
+        this.inboundArray.splice(this.inboundArray.indexOf(new Date(item.info.date).getDay() !== today.getDay()));
+        item.info.masses.forEach(y => {
+          if (y.name == 'PAP001') {
+            pap1 += Number(y.mass)
+          } else if (y.name == 'PAP005') {
+            pap5 += Number(y.mass)
+          } else if (y.name == 'PAP003') {
+            pap3 += Number(y.mass)
+          } else if (y.name == 'PAP007') {
+            pap7 += Number(y.mass)
+          } else if (y.name == 'PET005') {
+            pet5 += Number(y.mass)
+          } else if (y.name == 'PET003') {
+            pet3 += Number(y.mass)
+          } else if (y.name == 'PET001') {
+            pet1 += Number(y.mass)
+          } else if (y.name == 'HD001') {
+            hd1 += Number(y.mass)
+          } else if (y.name == 'LD001') {
+            ld1 += Number(y.mass)
+          } else if (y.name == 'LD003') {
+            ld3 += Number(y.mass)
+          } else if (y.name == 'GL001') {
+            gl1 += Number(y.mass)
+          }
+          else {
+            nfal1 += Number(y.mass)
+          }
+
+          this.massArray.push(Number(y.mass));
+          this.nameArray.push(y.name);
+        });
+      }
+    })
+    this.plotSimpleBarChart(pap1, pap5, pap3, pap7, pet5, pet3, pet1, hd1, ld1, ld3, gl1);
+    
+    this.outboundArray.forEach((item) => {
+      if(new Date(item.date).getDay() !== today.getDay()) {
+        this.outboundArray.splice(this.outboundArray.indexOf(new Date(item.date).getDay() !== today.getDay()));
+        item.masses.forEach(y => {
+          if (y.name == 'PAP001') {
+            pap11 += Number(y.mass)
+          } else if (y.name == 'PAP005') {
+            pap51 += Number(y.mass)
+          } else if (y.name == 'PAP003') {
+            pap31 += Number(y.mass)
+          } else if (y.name == 'PAP007') {
+            pap71 += Number(y.mass)
+          } else if (y.name == 'PET005') {
+            pet51 += Number(y.mass)
+          } else if (y.name == 'PET003') {
+            pet31 += Number(y.mass)
+          } else if (y.name == 'PET001') {
+            pet11 += Number(y.mass)
+          } else if (y.name == 'HD001') {
+            hd11 += Number(y.mass)
+          } else if (y.name == 'LD001') {
+            ld11 += Number(y.mass)
+          } else if (y.name == 'LD003') {
+            ld31 += Number(y.mass)
+          } else if (y.name == 'GL001') {
+            gl11 += Number(y.mass)
+          }
+          else {
+            nfal11 += Number(y.mass)
+          }
+  
+          this.massArray.push(Number(y.mass));
+          this.nameArray.push(y.name);
+        });
+      } else {
+        console.log(false);
+      }
+    })
+    this.plotSimpleBarChart1(pap11, pap51, pap31, pap71, pet51, pet31, pet11, hd11, ld11, ld31, gl11);
+
+    // this.reclaimerArray.forEach((item) => {
+      this.reclaimerArray.forEach((item) => {
+        if(new Date(item.date).getDay() !== today.getDay()) {
+          this.reclaimerArray.splice(this.reclaimerArray.indexOf(new Date(item.date).getDay() !== today.getDay()));
+          item.masses.forEach(y => {
+            if (y.name == 'PAP001') {
+              pap12 += Number(y.mass)
+            } else if (y.name == 'PAP005') {
+              pap52 += Number(y.mass)
+            } else if (y.name == 'PAP003') {
+              pap32 += Number(y.mass)
+            } else if (y.name == 'PAP007') {
+              pap72 += Number(y.mass)
+            } else if (y.name == 'PET005') {
+              pet52 += Number(y.mass)
+            } else if (y.name == 'PET003') {
+              pet32 += Number(y.mass)
+            } else if (y.name == 'PET001') {
+              pet12 += Number(y.mass)
+            } else if (y.name == 'HD001') {
+              hd12 += Number(y.mass)
+            } else if (y.name == 'LD001') {
+              ld12 += Number(y.mass)
+            } else if (y.name == 'LD003') {
+              ld32 += Number(y.mass)
+            } else if (y.name == 'GL001') {
+              gl12 += Number(y.mass)
+            }
+            /* else {
+              nfal12 += Number(y.mass)
+            } */
+    
+            this.massArray.push(Number(y.mass));
+            this.nameArray.push(y.name);
+          });
+        } else {
+          console.log(false);
+        }
+      })
+      this.plotSimpleBarChart2(pap12, pap52, pap32, pap72, pet52, pet32, pet12, hd12, ld12, ld32, gl12);
+  
+    // })
     // addFn = addFn || Date.prototype.getDay();
     // interval = interval || 1;
 
     // this.inboundArray = [];
-    var current = firstDayWeek;
+  /*   var current = firstDayWeek;
     this.inboundArray.forEach((item) => {
       while (new Date(item.info.date).getHours() >= today.getHours() && item.info.date <= new Date('23:59:59').getHours()) {
         this.inboundArray.push({ info: item.info, id: item.id })
@@ -423,7 +749,7 @@ export class FolderPage implements OnInit {
       while (new Date(item.date).getHours() >= today.getHours() && item.date <= new Date('23:59:59').getHours()) {
         this.reclaimerArray.push(item)
       }
-    })
+    }) */
   }
   monthlyChart() {
     var today = new Date();

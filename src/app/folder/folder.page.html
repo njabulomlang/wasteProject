@@ -152,9 +152,9 @@
         <h1 style="padding-left: 20px;">Statistics</h1>
       </div>
       <div>
-        <ion-button shape="round" (click)="dailyChart()" color="success" fill="outline">Daily</ion-button>
-        <ion-button shape="round" (click)="weeklyChart()" color="success" fill="outline">Weekly</ion-button>
-        <ion-button shape="round" (click)="monthlyChart()" color="success" fill="outline">Monthly</ion-button>
+        <ion-button shape="round" color="success" (click)="dailyChart()" fill="outline">Daily</ion-button>
+        <ion-button shape="round" color="success" (click)="weeklyChart()" fill="outline">Weekly</ion-button>
+        <ion-button shape="round" color="success" fill="outline">Monthly</ion-button>
       </div>
 
     </div>
@@ -224,26 +224,6 @@
         </tbody>
       </table>
     </div>
-    <div class="d-flex justify-content-between p-2">
-      <p>Default pagination:</p>
-      <ngb-pagination [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
-      
-      <p>No direction links:</p>
-      <ngb-pagination [collectionSize]="70" [(page)]="page" [directionLinks]="false"></ngb-pagination>
-      
-      <p>With boundary links:</p>
-      <ngb-pagination [collectionSize]="70" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
-      
-      <hr>
-      
-      <pre>Current page: {{page}}</pre>
-   
-       <!-- <select class="custom-select" style="width: auto" name="pageSize">
-         <option [ngValue]="2">2 items per page</option>
-         <option [ngValue]="4">4 items per page</option>
-         <option [ngValue]="6">6 items per page</option>
-       </select> -->
-     </div>
   </div>
 
 </ion-content>
@@ -379,8 +359,48 @@
       <ion-title size="large">{{ folder }}</ion-title>
     </ion-toolbar>
   </ion-header>
-  <div class="profile_container">
-    <div style="height: 30vh; border-radius: 10px;margin-top: 20%;"> <img src="{{admin.image}}"
+  <!-- <div class="profile_container"> -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3 col-sm-6" style="margin: auto;align-items: center;">
+
+            <div class="card hovercard" >
+                <div class="cardheader">
+
+                </div>
+                <div class="avatar">
+                    <img alt="" *ngIf="admin.image" src="{{admin.image}}">
+                    <img alt="" *ngIf="!admin.image" src="../../assets/user (1).png">
+                </div>
+                <div *ngIf="admin" class="info">
+                    <div class="title">
+                        <a>{{admin.name}}</a>
+                    </div>
+                    <div class="desc">{{admin.number}}</div>
+                    <div class="desc">{{admin.address}}</div>
+                    <!-- <div class="desc">Tech geek</div> -->
+                </div>
+
+                <div *ngIf="admin.name=='' || admin.number == null || admin.address == ''" class="info">
+                  <div class="title">
+                      <a>Create your profile</a>
+                  </div>
+                <!--   <div class="desc">{{admin.number}}</div>
+                  <div class="desc">{{admin.address}}</div> -->
+                  <!-- <div class="desc">Tech geek</div> -->
+              </div>
+                <div class="bottom">
+                  <ion-button (click)="editUser(admin_id, 'Admin')" fill="clear" slot="end" color="primary" style="width: 60px; margin-left: 85%;">
+                    <ion-icon slot="icon-only" name="create"></ion-icon>
+                  </ion-button>
+                </div>
+            </div>
+
+        </div>
+
+	<!-- </div> -->
+</div>
+    <!-- <div style="height: 30vh; border-radius: 10px;margin-top: 20%;"> <img src="{{admin.image}}"
         style="min-width: 450px; max-height: 100%; border-radius: 10px;" alt="">
     </div>
     <div
@@ -391,7 +411,7 @@
       style="height: 6%;width: 30%; background-color:  #D12C6F;border-radius: 0px 0 10px 10px;  color: white;cursor: pointer"
       (click)="editUser(admin_id, 'Admin')">
       <h5 style="text-align: center;">Edit Profile</h5>
-    </div>
+    </div> -->
     <!-- <div style="background-color: rgb(0, 80, 17); padding-top: 50px;">
       <div style="margin-bottom: -50px;z-index: 10000; width: 100%; align-items: center; justify-content: space-around;">
        <div>
